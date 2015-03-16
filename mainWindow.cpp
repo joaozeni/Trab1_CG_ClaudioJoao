@@ -111,7 +111,7 @@ void MainWindow::on_createline_clicked()
     redraw();
 }
 
-void viewPortTransformation()
+void MainWindow::viewPortTransformation()
 {
     DisplayFileObject * dispobj;
 	DisplayFile * transformed = new DisplayFile();

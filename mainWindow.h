@@ -19,15 +19,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void keyPressEvent(QKeyEvent *);
-
-protected:
-    void changeEvent(QEvent *e);
-    void resizeEvent(QResizeEvent *e);
-
-private:
-    Ui::MainWindow *ui;
-    DisplayFile * displayfile;
-
     const float vpMinX = 0.0;
     const float vpMinY = 0.0;
     const float vpMaxX = 500.0;
@@ -37,6 +28,14 @@ private:
     float wMinY = 0.0;
     float wMaxX = 500.0;
     float wMaxY = 500.0;
+
+protected:
+    void changeEvent(QEvent *e);
+    void resizeEvent(QResizeEvent *e);
+
+private:
+    Ui::MainWindow *ui;
+    DisplayFile * displayfile;
 
     void redraw();
     void viewPortTransformation();
