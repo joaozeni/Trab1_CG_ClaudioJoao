@@ -1,23 +1,19 @@
-#include "DisplayFileObject.h"
+#include "displayFileObject.h"
 
-template<class X>
 DisplayFileObject::DisplayFileObject(X obj, string name, string type){
 	object = obj;
 	object_name = name;
     object_type = type;
 }
 
-template<class X>
-getCoordinates(){
+Coordinate DisplayFileObject::getCoordinates(){
 	return object.coodinates();
 }
 
-template<class X>
-getName(){
+std::string DisplayFileObject::getName(){
     return object_name;
 }
 
-template<class X>
-getType(){
+std::string DisplayFileObject::getType(){
     return object_type;
 }
