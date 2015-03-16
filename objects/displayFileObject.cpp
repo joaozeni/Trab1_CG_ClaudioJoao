@@ -1,9 +1,12 @@
 #include "displayFileObject.h"
 
-DisplayFileObject::DisplayFileObject(X obj, string name, string type){
+DisplayFileObject::DisplayFileObject(GeometricObject obj, string name, string type){
 	object = obj;
 	object_name = name;
     object_type = type;
+}
+
+DisplayFileObject::~DisplayFileObject() {
 }
 
 Coordinate DisplayFileObject::getCoordinates(){

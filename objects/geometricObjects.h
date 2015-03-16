@@ -3,6 +3,10 @@
 
 #include "coordinate.h"
 
+class GeometricObject {
+	virtual Coordinate getCoordinate();
+};
+
 struct Point{
     Coordinate c;
 };

@@ -1,9 +1,9 @@
 #include "displayFile.h"
 
-DisplayFile::addObject(DisplayFileObject obj){
+void DisplayFile::addObject(DisplayFileObject obj){
     objects.push_back(obj);
 }
 
-DisplayFile::getObjects(){
+std::vector<DisplayFileObject> DisplayFile::getObjects(){
 	return objects;
 }

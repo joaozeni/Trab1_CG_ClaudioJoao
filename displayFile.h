@@ -11,7 +11,7 @@ class DisplayFile{
         DisplayFile();
         ~DisplayFile();
         void addObject(DisplayFileObject obj);
-        void getObjects();
+        std::vector<DisplayFileObject> getObjects();
 };
 
 #endif
