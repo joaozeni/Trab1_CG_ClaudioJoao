@@ -27,7 +27,7 @@ void QWindow::paintEvent(QPaintEvent * ){
     }
 }
 
-void updateObjects(DisplayFileObject objs){
+void updateObjects(DisplayFileObject * objs){
 	objects = objs;
 }
 

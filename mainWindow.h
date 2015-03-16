@@ -26,15 +26,15 @@ private:
     Ui::MainWindow *ui;
     DisplayFile * displayFile;
 
-    const int vpMinX = 0;
-    const int vpMinY = 0;
-    const int vpMaxX = 500;
-    const int vpMaxY = 500;
+    const float vpMinX = 0.0;
+    const float vpMinY = 0.0;
+    const float vpMaxX = 500.0;
+    const float vpMaxY = 500.0;
 
-    int wMinX = 0;
-    int wMinY = 0;
-    int wMaxX = 500;
-    int wMaxY = 500;
+    float wMinX = 0.0;
+    float wMinY = 0.0;
+    float wMaxX = 500.0;
+    float wMaxY = 500.0;
 
     void redraw();
     void viewPortTransformation();

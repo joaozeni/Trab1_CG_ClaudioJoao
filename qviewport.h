@@ -17,7 +17,7 @@ public:
 protected:
 	void paintEvent(QPaintEvent *);
 private:
-	DisplayFile objects;
+	DisplayFile * objects;
 	QPainter painter;
 };
 
