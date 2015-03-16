@@ -12,9 +12,9 @@ QWindow::~QViewport()
 void QWindow::paintEvent(QPaintEvent * ){
     painter.begin(this);
     painter.setBrush(QBrush(QColor(255.0, 255.0, 255.0)));
-    std::vector<DisplayFileObject>::iterator obj = objects.begin();
+    std::vector<DisplayFileObject>::iterator obj = objects->begin();
     while(obj != obj.end()){
-        string type = obj.getType();
+        srd::string type = obj.getType();
         if(type == "point"){
         	Coordinate c = obj.getCoordinates();
         	painter.drawPoint( c.x(), c.y());
@@ -27,7 +27,7 @@ void QWindow::paintEvent(QPaintEvent * ){
     }
 }
 
-void updateObjects(DisplayFileObject * objs){
+void updateObjects(DisplayFile * objs){
 	objects = objs;
 }
 

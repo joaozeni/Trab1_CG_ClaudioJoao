@@ -12,7 +12,7 @@ class QViewport : public QWidget
 public:
 	QViewport ( QWidget * parent = 0);
 	virtual ~QViewport();
-    void updateObjects(DisplayFileObject objs);
+    void updateObjects(DisplayFile * objs);
 
 protected:
 	void paintEvent(QPaintEvent *);

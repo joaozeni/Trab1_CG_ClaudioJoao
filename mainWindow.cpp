@@ -95,6 +95,7 @@ void MainWindow::on_createpoint_clicked()
 
 void MainWindow::on_createline_clicked()
 {
+    DisplayFileObject * d;
     std::string name = ui->nameline->toPlainText().toStdString();
     float xi = ui->pointix->toPlainText().toFloat();
     float yi = ui->pointiy->toPlainText().toFloat();
@@ -105,7 +106,7 @@ void MainWindow::on_createline_clicked()
     Line l;
     Coordinate* coors[2] = {coor1, coor2};
     l.c = coors;
-    DisplayFileObject * d = new DisplayFileObject(l, name, "line");
+    d = new DisplayFileObject(l, name, "line");
     displayfile->addObject(d);
     viewPortTransformation();
     redraw();
@@ -117,27 +118,27 @@ void MainWindow::viewPortTransformation()
 	DisplayFile * transformed = new DisplayFile();
     std::vector<DisplayFileObject> objs = displayFile->getObjects();
     std::vector<DisplayFileObject>::iterator obj = objs.begin();
-    while(obj != obj.end()){
-        string type = obj.getType();
+    while(obj != obj->end()){
+        std::string type = obj->getType();
         if(type == "point"){
-            Coordinate c = obj.getCoordinates();
+            Coordinate c = obj->getCoordinates();
             float vpx = (c.x()/wMaxX)*(vpMaxX);
             float vpy = (1-(c.y()/wMaxY))*(vpMaxY);
             Point p;
-            Coordinate coor = new Coordinate(vpx, vpy);
+            Coordinate * coor = new Coordinate(vpx, vpy);
             p.c = coor;
             dispobj = new DisplayFileObject(p, obj.getName(), "point");
             transformed->addObject(dispobj);
         }
         else if(type == "line"){
-            Coordinate c[2] = obj.getCoordinates();
+            Coordinate* c[2] = obj->getCoordinates();
             float vpx1 = (c[0].x()/wMaxX)*(vpMaxX);
             float vpy1 = (1-(c[0].y()/wMaxY))*(vpMaxY);
             float vpx2 = (c[1].x()/wMaxX)*(vpMaxX);
             float vpy2 = (1-(c[1].y()/wMaxY))*(vpMaxY);
-            Coordinate coor1 = new Coordinate(vpx1, vpyi1;
-            Coordinate coor2 = new Coordinate(vpx2, vpy2);
-            Coordinate coors[2] = {coor1, coor2};
+            Coordinate * coor1 = new Coordinate(vpx1, vpy1);
+            Coordinate * coor2 = new Coordinate(vpx2, vpy2);
+            Coordinate* coors[2] = {coor1, coor2};
             Line l;
             l.c = coors;
             dispobj = new DisplayFileObject(l, obj.getName(), "line");
