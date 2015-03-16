@@ -1,6 +1,6 @@
 #include "displayFile.h"
 
-void DisplayFile::addObject(DisplayFileObject obj){
+void DisplayFile::addObject(DisplayFileObject * obj){
     objects.push_back(obj);
 }
 

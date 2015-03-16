@@ -1,11 +1,13 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
+#include <QMainWindow>
 #include <QListWidgetItem>
 #include <QtGui>
 #include <QWidget>
 #include <QPainter>
-#include "objects/diplayFileObject"
+#include "objects/displayFileObject.h"
+#include "displayFile.h"
 
 namespace Ui {
     class MainWindow;
@@ -14,7 +16,7 @@ namespace Ui {
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
-    MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void keyPressEvent(QKeyEvent *);
 
@@ -24,7 +26,7 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    DisplayFile * displayFile;
+    DisplayFile * displayfile;
 
     const float vpMinX = 0.0;
     const float vpMinY = 0.0;

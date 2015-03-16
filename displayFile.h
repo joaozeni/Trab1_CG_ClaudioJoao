@@ -6,11 +6,11 @@
 
 class DisplayFile{
     private:
-        std::vector<DisplayFileObject> objects;
+        std::vector<DisplayFileObject*> objects;
     public:
         DisplayFile();
         ~DisplayFile();
-        void addObject(DisplayFileObject obj);
+        void addObject(DisplayFileObject * obj);
         std::vector<DisplayFileObject> getObjects();
 };
 
