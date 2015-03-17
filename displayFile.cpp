@@ -4,6 +4,6 @@ void DisplayFile::addObject(DisplayFileObject * obj){
     objects.push_back(obj);
 }
 
-std::vector<DisplayFileObject> DisplayFile::getObjects(){
+std::vector<DisplayFileObject*> DisplayFile::getObjects(){
 	return objects;
 }

@@ -84,9 +84,8 @@ void MainWindow::on_createpoint_clicked()
     float x = ui->pointx->toPlainText().toFloat();
     float y = ui->pointy->toPlainText().toFloat();
     Coordinate * coor = new Coordinate(x, y);
-    Point p;
-    p.c = coor;
-    DisplayFileObject * d = new DisplayFileObject(p, name, "point");
+    Point * p = new Point(coor);
+    DisplayFileObject * d = new DisplayFileObject(p, name);
     displayfile->addObject(d);
     viewPortTransformation();
     redraw();
@@ -103,10 +102,8 @@ void MainWindow::on_createline_clicked()
     float yf = ui->pointfy->toPlainText().toFloat();
     Coordinate * coor1 = new Coordinate(xi, yi);
     Coordinate * coor2 = new Coordinate(xf, yf);
-    Line l;
-    Coordinate* coors[2] = {coor1, coor2};
-    l.c = coors;
-    d = new DisplayFileObject(l, name, "line");
+    Line * l = new Line(coor1, coor2);
+    d = new DisplayFileObject(l, name);
     displayfile->addObject(d);
     viewPortTransformation();
     redraw();
@@ -116,37 +113,63 @@ void MainWindow::viewPortTransformation()
 {
     DisplayFileObject * dispobj;
 	DisplayFile * transformed = new DisplayFile();
-    std::vector<DisplayFileObject> objs = displayFile->getObjects();
-    std::vector<DisplayFileObject>::iterator obj = objs.begin();
-    while(obj != objs.end()){
-        std::string type = obj->getType();
+    std::vector<DisplayFileObject*> objs = displayfile->getObjects();
+    std::vector<DisplayFileObject*>::iterator obj = objs.begin();
+    for(int i = 0; i < objs.size(); i++){
+        std::string type = obj[i]->getType();
         if(type == "point"){
-            Coordinate c = obj->getCoordinates();
-            float vpx = (c.x()/wMaxX)*(vpMaxX);
-            float vpy = (1-(c.y()/wMaxY))*(vpMaxY);
-            Point p;
+            Coordinate * c = obj[i]->getCoordinates()[0];
+            float vpx = (c->x()/wMaxX)*(vpMaxX);
+            float vpy = (1-(c->y()/wMaxY))*(vpMaxY);
             Coordinate * coor = new Coordinate(vpx, vpy);
-            p.c = coor;
-            dispobj = new DisplayFileObject(p, obj.getName(), "point");
+            Point * p = new Point(coor);
+            dispobj = new DisplayFileObject(p, obj[i]->getName());
             transformed->addObject(dispobj);
         }
         else if(type == "line"){
-            Coordinate* c[2] = obj->getCoordinates();
-            float vpx1 = (c[0].x()/wMaxX)*(vpMaxX);
-            float vpy1 = (1-(c[0].y()/wMaxY))*(vpMaxY);
-            float vpx2 = (c[1].x()/wMaxX)*(vpMaxX);
-            float vpy2 = (1-(c[1].y()/wMaxY))*(vpMaxY);
+            std::vector<Coordinate*> c = obj[i]->getCoordinates();
+            float vpx1 = (c[0]->x()/wMaxX)*(vpMaxX);
+            float vpy1 = (1-(c[0]->y()/wMaxY))*(vpMaxY);
+            float vpx2 = (c[1]->x()/wMaxX)*(vpMaxX);
+            float vpy2 = (1-(c[1]->y()/wMaxY))*(vpMaxY);
             Coordinate * coor1 = new Coordinate(vpx1, vpy1);
             Coordinate * coor2 = new Coordinate(vpx2, vpy2);
             Coordinate* coors[2] = {coor1, coor2};
-            Line l;
-            l.c = coors;
-            dispobj = new DisplayFileObject(l, obj.getName(), "line");
+            Line * l = new Line(coor1, coor2);
+            dispobj = new DisplayFileObject(l, obj[i]->getName());
             transformed->addObject(dispobj);
         }
         else{
             break;
         }
     }
+//    while(obj != objs.end()){
+//        std::string type = obj->getType();
+//        if(type == "point"){
+//            Coordinate * c = obj->getCoordinates()[0];
+//            float vpx = (c->x()/wMaxX)*(vpMaxX);
+//            float vpy = (1-(c->y()/wMaxY))*(vpMaxY);
+//            Coordinate * coor = new Coordinate(vpx, vpy);
+//            Point * p = new Point(coor);
+//            dispobj = new DisplayFileObject(p, obj->getName());
+//            transformed->addObject(dispobj);
+//        }
+//        else if(type == "line"){
+//            std::vector<Coordinate*> c = obj->getCoordinates();
+//            float vpx1 = (c[0]->x()/wMaxX)*(vpMaxX);
+//            float vpy1 = (1-(c[0]->y()/wMaxY))*(vpMaxY);
+//            float vpx2 = (c[1]->x()/wMaxX)*(vpMaxX);
+//            float vpy2 = (1-(c[1]->y()/wMaxY))*(vpMaxY);
+//            Coordinate * coor1 = new Coordinate(vpx1, vpy1);
+//            Coordinate * coor2 = new Coordinate(vpx2, vpy2);
+//            Coordinate* coors[2] = {coor1, coor2};
+//            Line * l = new Line(coor1, coor2);
+//            dispobj = new DisplayFileObject(l, obj->getName());
+//            transformed->addObject(dispobj);
+//        }
+//        else{
+//            break;
+//        }
+//    }
     ui->canvas->updateObjects(transformed);
 }

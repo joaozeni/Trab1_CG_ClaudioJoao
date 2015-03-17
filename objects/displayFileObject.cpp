@@ -1,16 +1,15 @@
 #include "displayFileObject.h"
 
-DisplayFileObject::DisplayFileObject(GeometricObject obj, std::string name, string type){
+DisplayFileObject::DisplayFileObject(GeometricObject * obj, std::string name){
 	object = obj;
 	object_name = name;
-    object_type = type;
 }
 
 DisplayFileObject::~DisplayFileObject() {
 }
 
-Coordinate DisplayFileObject::getCoordinates(){
-	return object.coodinates();
+std::vector<Coordinate*> DisplayFileObject::getCoordinates(){
+    return object->getCoordinates();
 }
 
 std::string DisplayFileObject::getName(){
@@ -18,5 +17,5 @@ std::string DisplayFileObject::getName(){
 }
 
 std::string DisplayFileObject::getType(){
-    return object.getType();
+    return object->getType();
 }

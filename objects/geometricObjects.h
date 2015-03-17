@@ -7,7 +7,7 @@
 
 class GeometricObject {
 public:
-    std::vector<Coordinate> getCoordinates(){
+    std::vector<Coordinate*> getCoordinates(){
         return c;
     }
     std::string getType(){
@@ -15,12 +15,12 @@ public:
     }
 protected:
     std::string type;
-    std::vector<Coordinate> c;
+    std::vector<Coordinate*> c;
 };
 
 class Point: public GeometricObject {
 public:
-    Point(Coordinate coor){
+    Point(Coordinate * coor){
         type = "point";
         c.push_back(coor);
     };
@@ -28,7 +28,7 @@ public:
 
 class Line: public GeometricObject {
 public:
-    Line(Coordinate coor1, Coordinate coor2){
+    Line(Coordinate * coor1, Coordinate * coor2){
         type = "Line";
         c.push_back(coor1);
         c.push_back(coor2);
@@ -40,7 +40,7 @@ public:
     Polygon(){
         type = "polygon";
     };
-    void addPoint(Coordinate coor){
+    void addPoint(Coordinate * coor){
         c.push_back(coor);
     };
 };
