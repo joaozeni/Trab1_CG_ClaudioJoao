@@ -15,7 +15,6 @@ class DisplayFileObject{
     private:
     	GeometricObject object;
     	std::string object_name;
-        std::string object_type;
 };
 
 #endif

@@ -18,5 +18,5 @@ std::string DisplayFileObject::getName(){
 }
 
 std::string DisplayFileObject::getType(){
-    return object_type;
+    return object.getType();
 }

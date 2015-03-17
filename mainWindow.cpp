@@ -118,7 +118,7 @@ void MainWindow::viewPortTransformation()
 	DisplayFile * transformed = new DisplayFile();
     std::vector<DisplayFileObject> objs = displayFile->getObjects();
     std::vector<DisplayFileObject>::iterator obj = objs.begin();
-    while(obj != obj->end()){
+    while(obj != objs.end()){
         std::string type = obj->getType();
         if(type == "point"){
             Coordinate c = obj->getCoordinates();
