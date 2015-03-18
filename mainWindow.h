@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QStringListModel>
 #include "displayFileObject.h"
+#include "coordinate.h"
 #include "qviewport.h"
 
 namespace Ui {
@@ -32,11 +33,14 @@ private:
     float wMaxX = 500.0;
     float wMaxY = 500.0;
 
-    QStringListModel *model;
+    QStringListModel *objlist;
+    QStringListModel *polypointslist;
+    QStringList polystring;
 
     void viewPortTransformation();
 
     std::vector<DisplayFileObject*> displayFile;
+    std::vector<Coordinate*> polyPoints;
 
     //DisplayFileObject * obj = new DisplayFileObject();
 
@@ -50,6 +54,8 @@ private slots:
     //void on_addobj_clicked();
     void on_createpoint_clicked();
     void on_createline_clicked();
+    void on_createpoly_clicked();
+    void on_addpolypoint_clicked();
 };
 
 #endif // MAINWINDOW_H

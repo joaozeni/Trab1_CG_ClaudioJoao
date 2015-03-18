@@ -6,8 +6,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    model = new QStringListModel(this);
-    ui->objslist->setModel(model);
+
+    objlist = new QStringListModel(this);
+    ui->objslist->setModel(objlist);
+
+    polypointslist = new QStringListModel(this);
+    ui->polypointlist->setModel(polypointslist);
+    polypointslist->setStringList(polystring);
+
     ui->canvas->update();
 }
 
@@ -105,6 +111,42 @@ void MainWindow::on_createline_clicked()
     //redraw();
 }
 
+void MainWindow::on_addpolypoint_clicked()
+{
+    float x = ui->polyxpoint->toPlainText().toFloat();
+    float y = ui->polyypoint->toPlainText().toFloat();
+    Coordinate * coor = new Coordinate(x, y);
+    polyPoints.push_back(coor);
+    polystring << ui->polyxpoint->toPlainText() + "," + ui->polyypoint->toPlainText();
+    polypointslist->setStringList(polystring);
+    ui->polyxpoint->clear();
+    ui->polyypoint->clear();
+    //redraw();
+}
+
+void MainWindow::on_createpoly_clicked()
+{
+    std::string name = ui->namepolygon->toPlainText().toStdString();
+    float x = ui->polyxpoint->toPlainText().toFloat();
+    float y = ui->polyypoint->toPlainText().toFloat();
+    Coordinate * coor = new Coordinate(x, y);
+    polyPoints.push_back(coor);
+    Polygon * p = new Polygon();
+    for(int i =0; i < polyPoints.size(); i++){
+        p->addPoint(polyPoints.at(i));
+    }
+    DisplayFileObject * d = new DisplayFileObject(p, name);
+    displayFile.push_back(d);
+    viewPortTransformation();
+    ui->canvas->update();
+    ui->namepolygon->clear();
+    ui->polyxpoint->clear();
+    ui->polyypoint->clear();
+    polystring.clear();
+    polypointslist->setStringList(polystring);
+    //redraw();
+}
+
 void MainWindow::viewPortTransformation()
 {
     std::vector<DisplayFileObject*> transformed;
@@ -135,9 +177,18 @@ void MainWindow::viewPortTransformation()
             transformed.push_back(dispobj);
         }
         else{
-            break;
+            Polygon * p = new Polygon();
+            std::vector<Coordinate*> c = obj->getCoordinates();
+            for(int j = 0; j < c.size(); j++){
+                float vpx = (c.at(j)->x()/wMaxX)*(vpMaxX);
+                float vpy = (1-(c.at(j)->y()/wMaxY))*(vpMaxY);
+                Coordinate * coor = new Coordinate(vpx, vpy);
+                p->addPoint(coor);
+            }
+            DisplayFileObject * dispobj = new DisplayFileObject(p, obj->getName());
+            transformed.push_back(dispobj);
         }
     }
-    model->setStringList(list);
+    objlist->setStringList(list);
     ui->canvas->updateObjects(transformed);
 }

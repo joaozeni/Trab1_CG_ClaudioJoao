@@ -35,14 +35,14 @@ public:
     };
 };
 
-//class Polygon: public GeometricObject {
-//public:
-//    Polygon(){
-//        type = "polygon";
-//    };
-//    void addPoint(Coordinate * coor){
-//        c.push_back(coor);
-//    };
-//};
+class Polygon: public GeometricObject {
+public:
+    Polygon(){
+        type = "polygon";
+    };
+    void addPoint(Coordinate * coor){
+        c.push_back(coor);
+    };
+};
 
 #endif // GEOMETRICOBJECT

@@ -1,4 +1,5 @@
 #include "qviewport.h"
+#include <iostream>
 
 Qviewport::Qviewport(QWidget *parent) : QWidget(parent)
 {
@@ -32,7 +33,11 @@ void Qviewport::paintEvent(QPaintEvent *){
             painter.drawLine( c.at(0)->x(), c.at(0)->y(), c.at(1)->x(), c.at(1)->y());
         }
         else{
-            break;
+            std::vector<Coordinate*> c = obj->getCoordinates();
+            for(int j = 0; j < c.size()-1; j++){
+                painter.drawLine( c.at(j)->x(), c.at(j)->y(), c.at(j+1)->x(), c.at(j+1)->y());
+            }
+            painter.drawLine( c.at(c.size()-1)->x(), c.at(c.size()-1)->y(), c.at(0)->x(), c.at(0)->y());
         }
     }
 }
