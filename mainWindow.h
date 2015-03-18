@@ -1,24 +1,27 @@
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QListWidgetItem>
-#include <QtGui>
-#include <QWidget>
-#include <QPainter>
-#include "objects/displayFileObject.h"
-#include "displayFile.h"
+#include <vector>
+#include <QStringList>
+#include <QStringListModel>
+#include "displayFileObject.h"
+#include "qviewport.h"
 
 namespace Ui {
-    class MainWindow;
+class MainWindow;
 }
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void keyPressEvent(QKeyEvent *);
+
+private:
+    Ui::MainWindow *ui;
     const float vpMinX = 0.0;
     const float vpMinY = 0.0;
     const float vpMaxX = 500.0;
@@ -29,27 +32,24 @@ public:
     float wMaxX = 500.0;
     float wMaxY = 500.0;
 
-protected:
-    void changeEvent(QEvent *e);
-    void resizeEvent(QResizeEvent *e);
+    QStringListModel *model;
 
-private:
-    Ui::MainWindow *ui;
-    DisplayFile * displayfile;
-
-    void redraw();
     void viewPortTransformation();
 
+    std::vector<DisplayFileObject*> displayFile;
+
+    //DisplayFileObject * obj = new DisplayFileObject();
+
 private slots:
-    void on_botaobaixo_clicked();
-    void on_botaocima_clicked();
-    void on_botaoladod_clicked();
-    void on_botaoladoe_clicked();
-    void on_botaomais_clicked();
-    void on_botaomenos_clicked();
+    void on_buttondown_clicked();
+    void on_buttonup_clicked();
+    void on_buttonright_clicked();
+    void on_buttonleft_clicked();
+    void on_buttonplus_clicked();
+    void on_buttonminus_clicked();
     //void on_addobj_clicked();
     void on_createpoint_clicked();
     void on_createline_clicked();
 };
 
-#endif
+#endif // MAINWINDOW_H

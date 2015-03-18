@@ -1,5 +1,5 @@
-#ifndef GEOMETRIC_OBJECTS_H
-#define GEOMETRIC_OBJECTS_H
+#ifndef GEOMETRICOBJECT
+#define GEOMETRICOBJECT
 
 #include <vector>
 #include <string>
@@ -29,20 +29,20 @@ public:
 class Line: public GeometricObject {
 public:
     Line(Coordinate * coor1, Coordinate * coor2){
-        type = "Line";
+        type = "line";
         c.push_back(coor1);
         c.push_back(coor2);
     };
 };
 
-class Polygon: public GeometricObject {
-public:
-    Polygon(){
-        type = "polygon";
-    };
-    void addPoint(Coordinate * coor){
-        c.push_back(coor);
-    };
-};
+//class Polygon: public GeometricObject {
+//public:
+//    Polygon(){
+//        type = "polygon";
+//    };
+//    void addPoint(Coordinate * coor){
+//        c.push_back(coor);
+//    };
+//};
 
-#endif
+#endif // GEOMETRICOBJECT

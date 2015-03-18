@@ -3,22 +3,28 @@
 
 #include <QWidget>
 #include <QPainter>
-#include "displayFile.h"
-#include "objects/displayFileObject.h"
-#include "objects/coordinate.h"
+#include <vector>
+#include "displayFileObject.h"
+#include "coordinate.h"
 
-class QViewport : public QWidget
+class Qviewport : public QWidget
 {
+    Q_OBJECT
 public:
-	QViewport ( QWidget * parent = 0);
-	virtual ~QViewport();
-    void updateObjects(DisplayFile * objs);
+    explicit Qviewport(QWidget *parent = 0);
+    ~Qviewport();
+    void updateObjects(std::vector<DisplayFileObject*> objs);
 
 protected:
-	void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *);
+
 private:
-	DisplayFile * objects;
-	QPainter painter;
+    std::vector<DisplayFileObject*> objects;
+    //QPainter painter;
+
+signals:
+
+public slots:
 };
 
-#endif
+#endif // QVIEWPORT_H

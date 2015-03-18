@@ -1,15 +1,14 @@
-#include "mainWindow.h"
+#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    displayfile = new DisplayFile();
-
-    redraw();
+    model = new QStringListModel(this);
+    ui->objslist->setModel(model);
+    ui->canvas->update();
 }
 
 MainWindow::~MainWindow()
@@ -17,159 +16,128 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::keyPressEvent(QKeyEvent * evento){
-    switch(evento->key()){
-    case Qt::Key_Up:
-    on_botaocima_clicked();
-	break;
-    case Qt::Key_Down:
-    on_botaobaixo_clicked();
-	break;
-    case Qt::Key_Left:
-    on_botaoladoe_clicked();
-	break;
-    case Qt::Key_Right:
-    on_botaoladod_clicked();
-	break;
-    case Qt::Key_Plus:
-    on_botaomais_clicked();
-	break;
-    case Qt::Key_Minus:
-    on_botaomenos_clicked();
-	break;
-    case Qt::Key_Escape:
-	exit(0);
-    }
-}
-
-void MainWindow::redraw(){
-    ui->canvas->update();
-}
-
-void MainWindow::on_botaobaixo_clicked()
-{
-}
-
-void MainWindow::on_botaocima_clicked()
-{
-}
-
-void MainWindow::on_botaoladod_clicked()
-{
-}
-
-void MainWindow::on_botaoladoe_clicked()
-{
-}
-
-void MainWindow::on_botaomais_clicked()
+void MainWindow::on_buttonplus_clicked()
 {
     wMaxX = wMaxX * 1.1;
     wMaxY = wMaxY * 1.1;
     viewPortTransformation();
-    redraw();
+    ui->canvas->update();
+    //redraw();
 }
 
-void MainWindow::on_botaomenos_clicked()
+void MainWindow::on_buttonminus_clicked()
 {
-	wMaxX = wMaxX * 0.9;
+    wMaxX = wMaxX * 0.9;
     wMaxY = wMaxY * 0.9;
     viewPortTransformation();
-    redraw();
+    ui->canvas->update();
+    //redraw();
+}
+
+void MainWindow::on_buttonup_clicked()
+{
+    wMaxY = wMaxY + 1.0;
+    viewPortTransformation();
+    ui->canvas->update();
+    //redraw();
+}
+
+void MainWindow::on_buttondown_clicked()
+{
+    wMaxY = wMaxY - 1.0;
+    viewPortTransformation();
+    ui->canvas->update();
+    //redraw();
+}
+
+void MainWindow::on_buttonleft_clicked()
+{
+    wMaxX = wMaxX + 1.0;
+    ui->canvas->update();
+    viewPortTransformation();
+    //redraw();
+}
+
+void MainWindow::on_buttonright_clicked()
+{
+    wMaxX = wMaxX - 1.0;
+    viewPortTransformation();
+    ui->canvas->update();
+    //redraw();
 }
 
 void MainWindow::on_createpoint_clicked()
 {
     std::string name = ui->namepoint->toPlainText().toStdString();
-    float x = ui->pointx->toPlainText().toFloat();
-    float y = ui->pointy->toPlainText().toFloat();
+    float x = ui->xpoint->toPlainText().toFloat();
+    float y = ui->ypoint->toPlainText().toFloat();
     Coordinate * coor = new Coordinate(x, y);
     Point * p = new Point(coor);
     DisplayFileObject * d = new DisplayFileObject(p, name);
-    displayfile->addObject(d);
+    displayFile.push_back(d);
     viewPortTransformation();
-    redraw();
+    ui->canvas->update();
+    ui->namepoint->clear();
+    ui->xpoint->clear();
+    ui->ypoint->clear();
+    //redraw();
 }
-
 
 void MainWindow::on_createline_clicked()
 {
-    DisplayFileObject * d;
     std::string name = ui->nameline->toPlainText().toStdString();
-    float xi = ui->pointix->toPlainText().toFloat();
-    float yi = ui->pointiy->toPlainText().toFloat();
-    float xf = ui->pointfx->toPlainText().toFloat();
-    float yf = ui->pointfy->toPlainText().toFloat();
+    float xi = ui->xiline->toPlainText().toFloat();
+    float yi = ui->yiline->toPlainText().toFloat();
+    float xf = ui->xfline->toPlainText().toFloat();
+    float yf = ui->yfline->toPlainText().toFloat();
     Coordinate * coor1 = new Coordinate(xi, yi);
     Coordinate * coor2 = new Coordinate(xf, yf);
     Line * l = new Line(coor1, coor2);
-    d = new DisplayFileObject(l, name);
-    displayfile->addObject(d);
+    DisplayFileObject * d = new DisplayFileObject(l, name);
+    displayFile.push_back(d);
     viewPortTransformation();
-    redraw();
+    ui->canvas->update();
+    ui->nameline->clear();
+    ui->xiline->clear();
+    ui->yiline->clear();
+    ui->xfline->clear();
+    ui->yfline->clear();
+    //redraw();
 }
 
 void MainWindow::viewPortTransformation()
 {
-    DisplayFileObject * dispobj;
-	DisplayFile * transformed = new DisplayFile();
-    std::vector<DisplayFileObject*> objs = displayfile->getObjects();
-    std::vector<DisplayFileObject*>::iterator obj = objs.begin();
-    for(int i = 0; i < objs.size(); i++){
-        std::string type = obj[i]->getType();
+    std::vector<DisplayFileObject*> transformed;
+    QStringList list;
+    for(int i = 0; i < displayFile.size(); i++){
+        DisplayFileObject * obj = displayFile.at(i);
+        std::string type = obj->getType();
+        list << QString::fromStdString(obj->getName());
         if(type == "point"){
-            Coordinate * c = obj[i]->getCoordinates()[0];
+            Coordinate * c = obj->getCoordinates().at(0);
             float vpx = (c->x()/wMaxX)*(vpMaxX);
             float vpy = (1-(c->y()/wMaxY))*(vpMaxY);
             Coordinate * coor = new Coordinate(vpx, vpy);
             Point * p = new Point(coor);
-            dispobj = new DisplayFileObject(p, obj[i]->getName());
-            transformed->addObject(dispobj);
+            DisplayFileObject * dispobj = new DisplayFileObject(p, obj->getName());
+            transformed.push_back(dispobj);
         }
         else if(type == "line"){
-            std::vector<Coordinate*> c = obj[i]->getCoordinates();
-            float vpx1 = (c[0]->x()/wMaxX)*(vpMaxX);
-            float vpy1 = (1-(c[0]->y()/wMaxY))*(vpMaxY);
-            float vpx2 = (c[1]->x()/wMaxX)*(vpMaxX);
-            float vpy2 = (1-(c[1]->y()/wMaxY))*(vpMaxY);
+            std::vector<Coordinate*> c = obj->getCoordinates();
+            float vpx1 = (c.at(0)->x()/wMaxX)*(vpMaxX);
+            float vpy1 = (1-(c.at(0)->y()/wMaxY))*(vpMaxY);
+            float vpx2 = (c.at(1)->x()/wMaxX)*(vpMaxX);
+            float vpy2 = (1-(c.at(1)->y()/wMaxY))*(vpMaxY);
             Coordinate * coor1 = new Coordinate(vpx1, vpy1);
             Coordinate * coor2 = new Coordinate(vpx2, vpy2);
-            Coordinate* coors[2] = {coor1, coor2};
             Line * l = new Line(coor1, coor2);
-            dispobj = new DisplayFileObject(l, obj[i]->getName());
-            transformed->addObject(dispobj);
+            DisplayFileObject * dispobj = new DisplayFileObject(l, obj->getName());
+            transformed.push_back(dispobj);
         }
         else{
             break;
         }
     }
-//    while(obj != objs.end()){
-//        std::string type = obj->getType();
-//        if(type == "point"){
-//            Coordinate * c = obj->getCoordinates()[0];
-//            float vpx = (c->x()/wMaxX)*(vpMaxX);
-//            float vpy = (1-(c->y()/wMaxY))*(vpMaxY);
-//            Coordinate * coor = new Coordinate(vpx, vpy);
-//            Point * p = new Point(coor);
-//            dispobj = new DisplayFileObject(p, obj->getName());
-//            transformed->addObject(dispobj);
-//        }
-//        else if(type == "line"){
-//            std::vector<Coordinate*> c = obj->getCoordinates();
-//            float vpx1 = (c[0]->x()/wMaxX)*(vpMaxX);
-//            float vpy1 = (1-(c[0]->y()/wMaxY))*(vpMaxY);
-//            float vpx2 = (c[1]->x()/wMaxX)*(vpMaxX);
-//            float vpy2 = (1-(c[1]->y()/wMaxY))*(vpMaxY);
-//            Coordinate * coor1 = new Coordinate(vpx1, vpy1);
-//            Coordinate * coor2 = new Coordinate(vpx2, vpy2);
-//            Coordinate* coors[2] = {coor1, coor2};
-//            Line * l = new Line(coor1, coor2);
-//            dispobj = new DisplayFileObject(l, obj->getName());
-//            transformed->addObject(dispobj);
-//        }
-//        else{
-//            break;
-//        }
-//    }
+    model->setStringList(list);
     ui->canvas->updateObjects(transformed);
 }

@@ -1,10 +1,10 @@
-#ifndef DISPLAY_FILE_OBJECT_H
-#define DISPLAY_FILE_OBJECT_H
+#ifndef DISPLAYFILEOBJECT
+#define DISPLAYFILEOBJECT
 
 #include <string>
 #include <vector>
-#include "geometricObjects.h"
 #include "coordinate.h"
+#include "geometricobject.h"
 
 class DisplayFileObject{
     public:
@@ -15,7 +15,8 @@ class DisplayFileObject{
         std::string getType();
     private:
         GeometricObject * object;
-    	std::string object_name;
+        std::string object_name;
 };
 
-#endif
+#endif // DISPLAYFILEOBJECT
+

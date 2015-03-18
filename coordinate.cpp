@@ -1,9 +1,15 @@
 #include "coordinate.h"
 
-Coordinate::Coordinate(float x, float y, float z){
+Coordinate::Coordinate(float x, float y, float z)
+{
     coordinates[0] = x;
     coordinates[1] = y;
     coordinates[2] = z;
+}
+
+Coordinate::~Coordinate()
+{
+
 }
 
 float Coordinate::x(){
@@ -22,8 +28,10 @@ void Coordinate::y(float newVal){
     coordinates[1] = newVal;
 }
 
-//float Coordinate::z(){
-//}
-//
-//void Coordinate::z(float newVal){
-//}
+float Coordinate::z(){
+    return coordinates[2];
+}
+
+void Coordinate::z(float newVal){
+    coordinates[2] = newVal;
+}
