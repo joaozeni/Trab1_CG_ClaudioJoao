@@ -14,6 +14,7 @@ class DisplayFileObject{
         std::string getName();
         std::string getType();
         void move(Coordinate * c);
+        void scale(Coordinate * c);
     private:
         GeometricObject * object;
         std::string object_name;

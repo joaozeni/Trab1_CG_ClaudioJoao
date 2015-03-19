@@ -124,9 +124,21 @@ void MainWindow::on_addpolypoint_clicked()
     //redraw();
 }
 void MainWindow::on_buttonmove_clicked(){
-    Coordinate * coor = new Coordinate(50.0, 50.0);
+    float vx = ui->xmove->toPlainText().toFloat();
+    float vy = ui->ymove->toPlainText().toFloat();
+    Coordinate * coor = new Coordinate(vx, vy);
     DisplayFileObject * d = displayFile.at(0);
     d->move(coor);
+    viewPortTransformation();
+    ui->canvas->update();
+}
+
+void MainWindow::on_buttonscale_clicked(){
+    float fx = ui->fxscale->toPlainText().toFloat();
+    float fy = ui->fyscale->toPlainText().toFloat();
+    Coordinate * coor = new Coordinate(fx, fy);
+    DisplayFileObject * d = displayFile.at(0);
+    d->scale(coor);
     viewPortTransformation();
     ui->canvas->update();
 }

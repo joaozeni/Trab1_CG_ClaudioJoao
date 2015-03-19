@@ -23,3 +23,7 @@ std::string DisplayFileObject::getType(){
 void DisplayFileObject::move(Coordinate * c){
     object->move(c);
 }
+
+void DisplayFileObject::scale(Coordinate * c){
+    object->scale(c);
+}

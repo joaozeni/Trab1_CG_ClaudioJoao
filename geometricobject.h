@@ -14,10 +14,6 @@ public:
         for(int i=0; i<m1.size() ;i++){
             std::vector<float> l;
             nm.push_back(l);
-//            std::vector<float> l2;
-//            nm.push_back(l2);
-//            std::vector<float> l3;
-//            nm.push_back(l3);
             for(int j=0; j < m1.at(0).size() ;j++){
                 for(int k=0;k < m1.at(0).size();k++){
                     sum = sum+(m1.at(i).at(k)*m2.at(k).at(j));
@@ -33,6 +29,7 @@ public:
 class GeometricObject {
 public:
     virtual void move(Coordinate * coor) = 0;
+    virtual void scale(Coordinate * coor) = 0;
     std::vector<Coordinate*> getCoordinates(){
         return c;
     }
@@ -57,6 +54,13 @@ public:
         Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
         c.at(0) = newcoor;
     };
+    void scale(Coordinate *coor){
+        std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
+        std::vector<std::vector<float> > baseM = c.at(0)->generateBaseMatrix();
+        std::vector<std::vector<float> > newPoint = Matrix::mult(baseM, scaleM);
+        Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+        c.at(0) = newcoor;
+    };
 };
 
 class Line: public GeometricObject {
@@ -72,6 +76,32 @@ public:
         std::vector<std::vector<float> > baseM1 = c.at(1)->generateBaseMatrix();
         std::vector<std::vector<float> > newPoint0 = Matrix::mult(baseM0, moveM);
         std::vector<std::vector<float> > newPoint1 = Matrix::mult(baseM1, moveM);
+        Coordinate * newcoor0 = new Coordinate(newPoint0.at(0).at(0), newPoint0.at(0).at(1));
+        Coordinate * newcoor1 = new Coordinate(newPoint1.at(0).at(0), newPoint1.at(0).at(1));
+        c.at(0) = newcoor0;
+        c.at(1) = newcoor1;
+    };
+    void scale(Coordinate *coor){
+        float cx = (c.at(0)->x() + c.at(1)->x())/2;
+        float cy = (c.at(0)->y() + c.at(1)->y())/2;
+        float mcx = -cx;
+        float mcy = -cy;
+        Coordinate * coorc = new Coordinate(cx, cy);
+        Coordinate * coormc = new Coordinate(mcx, mcy);
+
+        std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
+        std::vector<std::vector<float> > movecM = coorc->generateMoveMatrix();
+        std::vector<std::vector<float> > movemcM = coormc->generateMoveMatrix();
+
+        std::vector<std::vector<float> > moveScale1 = Matrix::mult(movemcM, scaleM);
+        std::vector<std::vector<float> > finalM = Matrix::mult(moveScale1, movecM);
+
+        std::vector<std::vector<float> > baseM0 = c.at(0)->generateBaseMatrix();
+        std::vector<std::vector<float> > baseM1 = c.at(1)->generateBaseMatrix();
+
+        std::vector<std::vector<float> > newPoint0 = Matrix::mult(baseM0, finalM);
+        std::vector<std::vector<float> > newPoint1 = Matrix::mult(baseM1, finalM);
+
         Coordinate * newcoor0 = new Coordinate(newPoint0.at(0).at(0), newPoint0.at(0).at(1));
         Coordinate * newcoor1 = new Coordinate(newPoint1.at(0).at(0), newPoint1.at(0).at(1));
         c.at(0) = newcoor0;
@@ -94,6 +124,36 @@ public:
         for(int i =0; i < c.size(); i++){
             baseM = c.at(i)->generateBaseMatrix();
             newPoint = Matrix::mult(baseM, moveM);
+            Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+            c.at(i) = newcoor;
+        }
+    };
+    void scale(Coordinate *coor){
+        float cx = 0.0;
+        float cy = 0.0;
+        for(int i =0; i < c.size(); i++){
+            cx = cx + c.at(i)->x();
+            cy = cy + c.at(i)->y();
+        }
+        cx = cx/c.size();
+        cy = cy/c.size();
+        float mcx = -cx;
+        float mcy = -cy;
+        Coordinate * coorc = new Coordinate(cx, cy);
+        Coordinate * coormc = new Coordinate(mcx, mcy);
+
+        std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
+        std::vector<std::vector<float> > movecM = coorc->generateMoveMatrix();
+        std::vector<std::vector<float> > movemcM = coormc->generateMoveMatrix();
+
+        std::vector<std::vector<float> > moveScale1 = Matrix::mult(movemcM, scaleM);
+        std::vector<std::vector<float> > finalM = Matrix::mult(moveScale1, movecM);
+
+        std::vector<std::vector<float> > baseM;
+        std::vector<std::vector<float> > newPoint;
+        for(int i =0; i < c.size(); i++){
+            baseM = c.at(i)->generateBaseMatrix();
+            newPoint = Matrix::mult(baseM, finalM);
             Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
             c.at(i) = newcoor;
         }
