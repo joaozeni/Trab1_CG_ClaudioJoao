@@ -38,25 +38,33 @@ void Coordinate::z(float newVal){
 
 std::vector<std::vector<float> > Coordinate::generateBaseMatrix(){
     std::vector<std::vector<float> > baseMatrix;
-    baseMatrix.at(0).at(0) = coordinates[0];
-    baseMatrix.at(0).at(1) = coordinates[1];
-    baseMatrix.at(0).at(2) = 1.0;
+    std::vector<float> l;
+    l.push_back(coordinates[0]);
+    l.push_back(coordinates[1]);
+    l.push_back(1.0);
+    baseMatrix.push_back(l);
     return baseMatrix;
 }
 
 std::vector<std::vector<float> > Coordinate::generateMoveMatrix(){
     std::vector<std::vector<float> > baseMatrix;
-    baseMatrix.at(0).at(0) = 1.0;
-    baseMatrix.at(0).at(1) = 0.0;
-    baseMatrix.at(0).at(2) = 0.0;
+    std::vector<float> l1;
+    std::vector<float> l2;
+    std::vector<float> l3;
+    baseMatrix.push_back(l1);
+    baseMatrix.push_back(l2);
+    baseMatrix.push_back(l3);
+    baseMatrix.at(0).push_back(1.0);
+    baseMatrix.at(0).push_back(0.0);
+    baseMatrix.at(0).push_back(0.0);
 
-    baseMatrix.at(0).at(0) = 0.0;
-    baseMatrix.at(0).at(1) = 1.0;
-    baseMatrix.at(0).at(2) = 0.0;
+    baseMatrix.at(1).push_back(0.0);
+    baseMatrix.at(1).push_back(1.0);
+    baseMatrix.at(1).push_back(0.0);
 
-    baseMatrix.at(0).at(0) = coordinates[0];
-    baseMatrix.at(0).at(1) = coordinates[0];
-    baseMatrix.at(0).at(2) = 1.0;
+    baseMatrix.at(2).push_back(coordinates[0]);
+    baseMatrix.at(2).push_back(coordinates[0]);
+    baseMatrix.at(2).push_back(1.0);
     return baseMatrix;
 }
 

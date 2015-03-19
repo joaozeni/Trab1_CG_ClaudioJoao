@@ -47,8 +47,8 @@ public:
         std::vector<std::vector<float> > moveM = coor->generateMoveMatrix();
         std::vector<std::vector<float> > baseM = c.at(0)->generateBaseMatrix();
         std::vector<std::vector<float> > newPoint = Matrix::mult(baseM, moveM);
-        Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
-        c.at(0) = newcoor;
+        //Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+        //c.at(0) = newcoor;
     };
 };
 

@@ -13,6 +13,7 @@ class DisplayFileObject{
         std::vector<Coordinate*> getCoordinates();
         std::string getName();
         std::string getType();
+        void move(Coordinate * c);
     private:
         GeometricObject * object;
         std::string object_name;

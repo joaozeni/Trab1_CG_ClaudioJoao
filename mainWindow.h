@@ -56,6 +56,7 @@ private slots:
     void on_createline_clicked();
     void on_createpoly_clicked();
     void on_addpolypoint_clicked();
+    void on_buttonmove_clicked();
 };
 
 #endif // MAINWINDOW_H

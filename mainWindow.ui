@@ -522,16 +522,6 @@
        <string>Adicionar Poligono</string>
       </property>
      </widget>
-     <zorder>polypointlist</zorder>
-     <zorder>polyxpoint</zorder>
-     <zorder>label_4</zorder>
-     <zorder>polyypoint</zorder>
-     <zorder>addpolypoint</zorder>
-     <zorder>namepolygon</zorder>
-     <zorder>label_5</zorder>
-     <zorder>label_6</zorder>
-     <zorder>createpoly</zorder>
-     <zorder>horizontalLayoutWidget_2</zorder>
     </widget>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget_2">

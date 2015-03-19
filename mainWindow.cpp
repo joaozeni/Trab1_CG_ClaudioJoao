@@ -123,6 +123,13 @@ void MainWindow::on_addpolypoint_clicked()
     ui->polyypoint->clear();
     //redraw();
 }
+void MainWindow::on_buttonmove_clicked(){
+    Coordinate * coor = new Coordinate(50.0, 50.0);
+    DisplayFileObject * d = displayFile.at(0);
+    d->move(coor);
+    //viewPortTransformation();
+    //ui->canvas->update();
+}
 
 void MainWindow::on_createpoly_clicked()
 {

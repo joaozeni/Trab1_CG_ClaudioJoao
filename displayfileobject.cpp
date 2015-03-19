@@ -19,3 +19,7 @@ std::string DisplayFileObject::getName(){
 std::string DisplayFileObject::getType(){
     return object->getType();
 }
+
+void DisplayFileObject::move(Coordinate * c){
+    object->move(c);
+}
