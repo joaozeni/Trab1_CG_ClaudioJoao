@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 #include "coordinate.h"
 
 class Matrix{
@@ -11,11 +12,17 @@ public:
         std::vector<std::vector<float> > nm;
         float sum = 0.0;
         for(int i=0; i<m1.size() ;i++){
-            for(int j=0; j<m1.at(0).size() ;j++){
-                for(int k=0;m1.at(0).size();k++){
+            std::vector<float> l;
+            nm.push_back(l);
+//            std::vector<float> l2;
+//            nm.push_back(l2);
+//            std::vector<float> l3;
+//            nm.push_back(l3);
+            for(int j=0; j < m1.at(0).size() ;j++){
+                for(int k=0;k < m1.at(0).size();k++){
                     sum = sum+(m1.at(i).at(k)*m2.at(k).at(j));
                 }
-                nm.at(i).at(j) = sum;
+                nm.at(i).push_back(sum);
                 sum = 0.0;
             }
         }
@@ -47,8 +54,8 @@ public:
         std::vector<std::vector<float> > moveM = coor->generateMoveMatrix();
         std::vector<std::vector<float> > baseM = c.at(0)->generateBaseMatrix();
         std::vector<std::vector<float> > newPoint = Matrix::mult(baseM, moveM);
-        //Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
-        //c.at(0) = newcoor;
+        Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+        c.at(0) = newcoor;
     };
 };
 
