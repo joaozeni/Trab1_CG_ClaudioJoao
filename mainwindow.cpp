@@ -143,6 +143,14 @@ void MainWindow::on_buttonscale_clicked(){
     ui->canvas->update();
 }
 
+void MainWindow::on_buttonrotate_clicked(){
+    float factor = ui->rotatefactor->toPlainText().toFloat();
+    DisplayFileObject * d = displayFile.at(0);
+    d->rotate(factor);
+    viewPortTransformation();
+    ui->canvas->update();
+}
+
 void MainWindow::on_createpoly_clicked()
 {
     std::string name = ui->namepolygon->toPlainText().toStdString();

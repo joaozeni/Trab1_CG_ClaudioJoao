@@ -27,3 +27,7 @@ void DisplayFileObject::move(Coordinate * c){
 void DisplayFileObject::scale(Coordinate * c){
     object->scale(c);
 }
+
+void DisplayFileObject::rotate(float factor){
+    object->rotate(factor);
+}
