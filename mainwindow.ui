@@ -585,6 +585,19 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="bottomleftlabel">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>550</y>
+      <width>57</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -592,7 +605,7 @@
      <x>0</x>
      <y>0</y>
      <width>1177</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

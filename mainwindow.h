@@ -38,6 +38,7 @@ private:
     QStringList polystring;
 
     void viewPortTransformation();
+    Coordinate* getViewPortCoordinates(Coordinate* worldCoord);
 
     std::vector<DisplayFileObject*> displayFile;
     std::vector<Coordinate*> polyPoints;
