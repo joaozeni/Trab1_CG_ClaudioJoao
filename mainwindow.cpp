@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->polypointlist->setModel(polypointslist);
     polypointslist->setStringList(polystring);
 
+    ui->objslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
     ui->canvas->update();
 }
 
@@ -124,10 +126,14 @@ void MainWindow::on_addpolypoint_clicked()
     //redraw();
 }
 void MainWindow::on_buttonmove_clicked(){
+    int r = ui->objslist->currentIndex().row();
+    if (r == -1){
+        r = 0;
+    }
     float vx = ui->xmove->toPlainText().toFloat();
     float vy = ui->ymove->toPlainText().toFloat();
     Coordinate * coor = new Coordinate(vx, vy);
-    DisplayFileObject * d = displayFile.at(0);
+    DisplayFileObject * d = displayFile.at(r);
     d->move(coor);
     viewPortTransformation();
     ui->canvas->update();

@@ -25,8 +25,8 @@ private:
     Ui::MainWindow *ui;
     const float vpMinX = 0.0;
     const float vpMinY = 0.0;
-    const float vpMaxX = 500.0;
-    const float vpMaxY = 500.0;
+    const float vpMaxX = 550.0;
+    const float vpMaxY = 550.0;
 
     float wMinX = 0.0;
     float wMinY = 0.0;
