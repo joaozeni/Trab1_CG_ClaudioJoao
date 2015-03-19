@@ -26,7 +26,6 @@ void Qviewport::paintEvent(QPaintEvent *){
         std::string type = obj->getType();
         if(type == "point"){
             Coordinate * c = obj->getCoordinates().at(0);
-            std::cout << c->x() << "," << c->y();
             painter.drawPoint( c->x(), c->y());
         }
         else if(type == "line"){

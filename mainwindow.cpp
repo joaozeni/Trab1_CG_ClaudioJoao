@@ -140,18 +140,26 @@ void MainWindow::on_buttonmove_clicked(){
 }
 
 void MainWindow::on_buttonscale_clicked(){
+    int r = ui->objslist->currentIndex().row();
+    if (r == -1){
+        r = 0;
+    }
     float fx = ui->fxscale->toPlainText().toFloat();
     float fy = ui->fyscale->toPlainText().toFloat();
     Coordinate * coor = new Coordinate(fx, fy);
-    DisplayFileObject * d = displayFile.at(0);
+    DisplayFileObject * d = displayFile.at(r);
     d->scale(coor);
     viewPortTransformation();
     ui->canvas->update();
 }
 
 void MainWindow::on_buttonrotate_clicked(){
+    int r = ui->objslist->currentIndex().row();
+    if (r == -1){
+        r = 0;
+    }
     float factor = ui->rotatefactor->toPlainText().toFloat();
-    DisplayFileObject * d = displayFile.at(0);
+    DisplayFileObject * d = displayFile.at(r);
     d->rotate(factor);
     viewPortTransformation();
     ui->canvas->update();
