@@ -1,6 +1,7 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
+#include <vector>
 
 class Coordinate
 {
@@ -15,6 +16,10 @@ public:
 
     float z();
     void z(float newVal);
+
+    std::vector<std::vector<float> > generateBaseMatrix();
+    std::vector<std::vector<float> > generateMoveMatrix();
+    std::vector<std::vector<float> > generateScaleMatrix();
 private:
     float coordinates[3];
 };

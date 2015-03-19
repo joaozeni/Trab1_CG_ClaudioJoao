@@ -35,3 +35,43 @@ float Coordinate::z(){
 void Coordinate::z(float newVal){
     coordinates[2] = newVal;
 }
+
+std::vector<std::vector<float> > Coordinate::generateBaseMatrix(){
+    std::vector<std::vector<float> > baseMatrix;
+    baseMatrix.at(0).at(0) = coordinates[0];
+    baseMatrix.at(0).at(1) = coordinates[1];
+    baseMatrix.at(0).at(2) = 1.0;
+    return baseMatrix;
+}
+
+std::vector<std::vector<float> > Coordinate::generateMoveMatrix(){
+    std::vector<std::vector<float> > baseMatrix;
+    baseMatrix.at(0).at(0) = 1.0;
+    baseMatrix.at(0).at(1) = 0.0;
+    baseMatrix.at(0).at(2) = 0.0;
+
+    baseMatrix.at(0).at(0) = 0.0;
+    baseMatrix.at(0).at(1) = 1.0;
+    baseMatrix.at(0).at(2) = 0.0;
+
+    baseMatrix.at(0).at(0) = coordinates[0];
+    baseMatrix.at(0).at(1) = coordinates[0];
+    baseMatrix.at(0).at(2) = 1.0;
+    return baseMatrix;
+}
+
+std::vector<std::vector<float> > Coordinate::generateScaleMatrix(){
+    std::vector<std::vector<float> > baseMatrix;
+    baseMatrix.at(0).at(0) = coordinates[0];
+    baseMatrix.at(0).at(1) = 0.0;
+    baseMatrix.at(0).at(2) = 0.0;
+
+    baseMatrix.at(0).at(0) = 0.0;
+    baseMatrix.at(0).at(1) = coordinates[1];
+    baseMatrix.at(0).at(2) = 0.0;
+
+    baseMatrix.at(0).at(0) = 0.0;
+    baseMatrix.at(0).at(1) = 0.0;
+    baseMatrix.at(0).at(2) = 1.0;
+    return baseMatrix;
+}
