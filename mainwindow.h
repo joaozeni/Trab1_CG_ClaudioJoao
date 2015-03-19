@@ -5,7 +5,7 @@
 #include <vector>
 #include <QStringList>
 #include <QStringListModel>
-#include "displayFileObject.h"
+#include "displayfileobject.h"
 #include "coordinate.h"
 #include "qviewport.h"
 

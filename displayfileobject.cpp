@@ -1,4 +1,4 @@
-#include "displayFileObject.h"
+#include "displayfileobject.h"
 
 DisplayFileObject::DisplayFileObject(GeometricObject *obj, std::string name){
     object = obj;

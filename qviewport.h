@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <vector>
-#include "displayFileObject.h"
+#include "displayfileobject.h"
 #include "coordinate.h"
 
 class Qviewport : public QWidget
