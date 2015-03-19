@@ -12,9 +12,13 @@ public:
     static std::vector<std::vector<float> > mult(std::vector<std::vector<float> > m1, std::vector<std::vector<float> > m2){
         std::vector<std::vector<float> > nm;
         float sum = 0.0;
+        std::vector<float> l1;
+        std::vector<float> l2;
+        std::vector<float> l3;
+        nm.push_back(l1);
+        nm.push_back(l2);
+        nm.push_back(l3);
         for(int i=0; i<m1.size() ;i++){
-            std::vector<float> l;
-            nm.push_back(l);
             for(int j=0; j < m1.at(0).size() ;j++){
                 for(int k=0;k < m1.at(0).size();k++){
                     sum = sum+(m1.at(i).at(k)*m2.at(k).at(j));
