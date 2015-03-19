@@ -29,12 +29,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
     viewPortTransformation();
 
+    //updateScreen();
+
     ui->canvas->update();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::updateScreen()
+{
+    ui->label_botlef->setText(QString::number(vpMinX) + ", " + QString::number(vpMinY));
+    ui->label_botrig->setText(QString::number(vpMaxX));
+    ui->label_toplef->setText(QString::number(vpMaxY));
 }
 
 void MainWindow::on_buttonplus_clicked()
@@ -200,7 +210,7 @@ void MainWindow::on_createpoly_clicked()
     ui->canvas->update();
     ui->namepolygon->clear();
     ui->polyxpoint->clear();
-    ui->polyypoint->clear();
+    ui->polyypoint->clear();/
     polystring.clear();
     polypointslist->setStringList(polystring);
     //redraw();
@@ -246,5 +256,6 @@ void MainWindow::viewPortTransformation()
         }
     }
     objlist->setStringList(list);
+    updateScreen();
     ui->canvas->updateObjects(transformed);
 }

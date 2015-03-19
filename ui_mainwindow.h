@@ -54,6 +54,7 @@ public:
     QPushButton *buttonrotate;
     QFrame *frame;
     Qviewport *canvas;
+    QLabel *label_toplef;
     QTabWidget *tabWidget;
     QWidget *Ponto;
     QLabel *label;
@@ -94,6 +95,8 @@ public:
     QPushButton *buttonleft;
     QPushButton *buttonright;
     QLabel *label_12;
+    QLabel *label_botlef;
+    QLabel *label_botrig;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -205,6 +208,9 @@ public:
         canvas = new Qviewport(frame);
         canvas->setObjectName(QString::fromUtf8("canvas"));
         canvas->setGeometry(QRect(0, 0, 550, 550));
+        label_toplef = new QLabel(canvas);
+        label_toplef->setObjectName(QString::fromUtf8("label_toplef"));
+        label_toplef->setGeometry(QRect(0, 0, 57, 15));
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tabWidget->setGeometry(QRect(870, 0, 291, 541));
@@ -341,10 +347,16 @@ public:
 
         gridLayout_4->addWidget(label_12, 0, 0, 1, 1);
 
+        label_botlef = new QLabel(centralWidget);
+        label_botlef->setObjectName(QString::fromUtf8("label_botlef"));
+        label_botlef->setGeometry(QRect(300, 550, 57, 15));
+        label_botrig = new QLabel(centralWidget);
+        label_botrig->setObjectName(QString::fromUtf8("label_botrig"));
+        label_botrig->setGeometry(QRect(850, 550, 57, 15));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1177, 22));
+        menuBar->setGeometry(QRect(0, 0, 1177, 20));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -372,6 +384,7 @@ public:
         label_18->setText(QApplication::translate("MainWindow", "Fy", 0, QApplication::UnicodeUTF8));
         label_17->setText(QApplication::translate("MainWindow", "Fx", 0, QApplication::UnicodeUTF8));
         buttonrotate->setText(QApplication::translate("MainWindow", "Girar", 0, QApplication::UnicodeUTF8));
+        label_toplef->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "Nome", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "X", 0, QApplication::UnicodeUTF8));
         label_3->setText(QApplication::translate("MainWindow", "Y", 0, QApplication::UnicodeUTF8));
@@ -397,6 +410,8 @@ public:
         buttonleft->setText(QApplication::translate("MainWindow", "<", 0, QApplication::UnicodeUTF8));
         buttonright->setText(QApplication::translate("MainWindow", ">", 0, QApplication::UnicodeUTF8));
         label_12->setText(QApplication::translate("MainWindow", "Window", 0, QApplication::UnicodeUTF8));
+        label_botlef->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
+        label_botrig->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
