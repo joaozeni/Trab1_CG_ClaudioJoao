@@ -31,37 +31,37 @@ class GeometricObject {
 public:
     virtual void move(Coordinate * coor) = 0;
     virtual void scale(Coordinate * coor) = 0;
-    virtual void rotate(float factor) = 0;
+    //virtual void rotate(float factor) = 0;
     std::vector<Coordinate*> getCoordinates(){
         return c;
     }
     std::string getType(){
         return type;
     }
-    std::vector<std::vector<float> > generateRotateM(float factor){
-        std::vector<std::vector<float> > baseMatrix;
-        std::vector<float> l1;
-        std::vector<float> l2;
-        std::vector<float> l3;
+//    std::vector<std::vector<float> > generateRotateM(float factor){
+//        std::vector<std::vector<float> > baseMatrix;
+//        std::vector<float> l1;
+//        std::vector<float> l2;
+//        std::vector<float> l3;
 
-        baseMatrix.push_back(l1);
-        baseMatrix.push_back(l2);
-        baseMatrix.push_back(l3);
+//        baseMatrix.push_back(l1);
+//        baseMatrix.push_back(l2);
+//        baseMatrix.push_back(l3);
 
-        baseMatrix.at(0).push_back(cos(factor));
-        baseMatrix.at(0).push_back(0.0);
-        baseMatrix.at(0).push_back(0.0);
+//        baseMatrix.at(0).push_back(cos(factor));
+//        baseMatrix.at(0).push_back(-sin(factor));
+//        baseMatrix.at(0).push_back(0.0);
 
-        baseMatrix.at(1).push_back(0.0);
-        baseMatrix.at(1).push_back(coordinates[1]);
-        baseMatrix.at(1).push_back(0.0);
+//        baseMatrix.at(1).push_back(0.0);
+//        baseMatrix.at(1).push_back(0.0);
+//        baseMatrix.at(1).push_back(0.0);
 
-        baseMatrix.at(2).push_back(0.0);
-        baseMatrix.at(2).push_back(0.0);
-        baseMatrix.at(2).push_back(1.0);
+//        baseMatrix.at(2).push_back(0.0);
+//        baseMatrix.at(2).push_back(0.0);
+//        baseMatrix.at(2).push_back(1.0);
 
-        return baseMatrix;
-    }
+//        return baseMatrix;
+//    }
 protected:
     std::string type;
     std::vector<Coordinate*> c;
@@ -87,13 +87,13 @@ public:
         Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
         c.at(0) = newcoor;
     };
-    void scale(Coordinate *coor){
-        std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
-        std::vector<std::vector<float> > baseM = c.at(0)->generateBaseMatrix();
-        std::vector<std::vector<float> > newPoint = Matrix::mult(baseM, scaleM);
-        Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
-        c.at(0) = newcoor;
-    };
+//    void scale(Coordinate *coor){
+//        std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
+//        std::vector<std::vector<float> > baseM = c.at(0)->generateBaseMatrix();
+//        std::vector<std::vector<float> > newPoint = Matrix::mult(baseM, scaleM);
+//        Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+//        c.at(0) = newcoor;
+//    };
 };
 
 class Line: public GeometricObject {
