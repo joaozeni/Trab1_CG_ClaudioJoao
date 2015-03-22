@@ -210,7 +210,7 @@ void MainWindow::on_createpoly_clicked()
     ui->canvas->update();
     ui->namepolygon->clear();
     ui->polyxpoint->clear();
-    ui->polyypoint->clear();/
+    ui->polyypoint->clear();
     polystring.clear();
     polypointslist->setStringList(polystring);
     //redraw();
