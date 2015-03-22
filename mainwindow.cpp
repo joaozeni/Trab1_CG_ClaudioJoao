@@ -16,12 +16,35 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->objslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
+    displayFile.push_back(new DisplayFileObject(new Point(new Coordinate(10, 10))
+                                                ,"ponto"));
+    displayFile.push_back(new DisplayFileObject(new Line(new Coordinate(20, 20), new Coordinate(100,100))
+                                                ,"linha"));
+    Polygon *p = new Polygon();
+    p->addPoint(new Coordinate(50, 50));
+    p->addPoint(new Coordinate(100, 50));
+    p->addPoint(new Coordinate(100, 100));
+    p->addPoint(new Coordinate(50, 100));
+    displayFile.push_back(new DisplayFileObject(p, "Poly"));
+
+    viewPortTransformation();
+
+    //updateScreen();
+
     ui->canvas->update();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::updateScreen()
+{
+    ui->label_botlef->setText(QString::number(vpMinX) + ", " + QString::number(vpMinY));
+    ui->label_botrig->setText(QString::number(vpMaxX));
+    ui->label_toplef->setText(QString::number(vpMaxY));
 }
 
 void MainWindow::on_buttonplus_clicked()
@@ -44,7 +67,8 @@ void MainWindow::on_buttonminus_clicked()
 
 void MainWindow::on_buttonup_clicked()
 {
-    wMaxY = wMaxY + 1.0;
+    wMaxY += 10.0;
+    wMinY += 10.0;
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -52,15 +76,18 @@ void MainWindow::on_buttonup_clicked()
 
 void MainWindow::on_buttondown_clicked()
 {
-    wMaxY = wMaxY - 1.0;
+    wMaxY -= 10.0;
+    wMinY -= 10.0;
     viewPortTransformation();
     ui->canvas->update();
+
     //redraw();
 }
 
 void MainWindow::on_buttonleft_clicked()
 {
-    wMaxX = wMaxX + 1.0;
+    wMaxX += 10.0;
+    wMinX += 10.0;
     ui->canvas->update();
     viewPortTransformation();
     //redraw();
@@ -68,7 +95,8 @@ void MainWindow::on_buttonleft_clicked()
 
 void MainWindow::on_buttonright_clicked()
 {
-    wMaxX = wMaxX - 1.0;
+    wMaxX -= 10.0;
+    wMinX -= 10.0;
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -182,10 +210,16 @@ void MainWindow::on_createpoly_clicked()
     ui->canvas->update();
     ui->namepolygon->clear();
     ui->polyxpoint->clear();
-    ui->polyypoint->clear();
+    ui->polyypoint->clear();/
     polystring.clear();
     polypointslist->setStringList(polystring);
     //redraw();
+}
+
+Coordinate* MainWindow::getViewPortCoordinates(Coordinate* worldCoord) {
+    float vpx = ((worldCoord->x()-wMinX)/(wMaxX-wMinX))*(vpMaxX);
+    float vpy = (1-((worldCoord->y()-wMinY)/(wMaxY-wMinY)))*(vpMaxY);
+    return new Coordinate(vpx, vpy);
 }
 
 void MainWindow::viewPortTransformation()
@@ -197,22 +231,15 @@ void MainWindow::viewPortTransformation()
         std::string type = obj->getType();
         list << QString::fromStdString(obj->getName());
         if(type == "point"){
-            Coordinate * c = obj->getCoordinates().at(0);
-            float vpx = (c->x()/wMaxX)*(vpMaxX);
-            float vpy = (1-(c->y()/wMaxY))*(vpMaxY);
-            Coordinate * coor = new Coordinate(vpx, vpy);
+            Coordinate * coor = getViewPortCoordinates(obj->getCoordinates().at(0));
             Point * p = new Point(coor);
             DisplayFileObject * dispobj = new DisplayFileObject(p, obj->getName());
             transformed.push_back(dispobj);
         }
         else if(type == "line"){
             std::vector<Coordinate*> c = obj->getCoordinates();
-            float vpx1 = (c.at(0)->x()/wMaxX)*(vpMaxX);
-            float vpy1 = (1-(c.at(0)->y()/wMaxY))*(vpMaxY);
-            float vpx2 = (c.at(1)->x()/wMaxX)*(vpMaxX);
-            float vpy2 = (1-(c.at(1)->y()/wMaxY))*(vpMaxY);
-            Coordinate * coor1 = new Coordinate(vpx1, vpy1);
-            Coordinate * coor2 = new Coordinate(vpx2, vpy2);
+            Coordinate * coor1 = getViewPortCoordinates(c.at(0));
+            Coordinate * coor2 = getViewPortCoordinates(c.at(1));
             Line * l = new Line(coor1, coor2);
             DisplayFileObject * dispobj = new DisplayFileObject(l, obj->getName());
             transformed.push_back(dispobj);
@@ -221,9 +248,7 @@ void MainWindow::viewPortTransformation()
             Polygon * p = new Polygon();
             std::vector<Coordinate*> c = obj->getCoordinates();
             for(int j = 0; j < c.size(); j++){
-                float vpx = (c.at(j)->x()/wMaxX)*(vpMaxX);
-                float vpy = (1-(c.at(j)->y()/wMaxY))*(vpMaxY);
-                Coordinate * coor = new Coordinate(vpx, vpy);
+                Coordinate * coor = getViewPortCoordinates(c.at(j));
                 p->addPoint(coor);
             }
             DisplayFileObject * dispobj = new DisplayFileObject(p, obj->getName());
@@ -231,5 +256,6 @@ void MainWindow::viewPortTransformation()
         }
     }
     objlist->setStringList(list);
+    updateScreen();
     ui->canvas->updateObjects(transformed);
 }

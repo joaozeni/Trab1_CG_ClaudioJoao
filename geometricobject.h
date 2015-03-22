@@ -52,12 +52,12 @@ public:
         baseMatrix.push_back(l2);
         baseMatrix.push_back(l3);
 
-        baseMatrix.at(0).push_back(cos(factor));
-        baseMatrix.at(0).push_back(-sin(factor));
+        baseMatrix.at(0).push_back(cos(factor*M_PI/180));
+        baseMatrix.at(0).push_back(-sin(factor*M_PI/180));
         baseMatrix.at(0).push_back(0.0);
 
-        baseMatrix.at(1).push_back(sin(factor));
-        baseMatrix.at(1).push_back(cos(factor));
+        baseMatrix.at(1).push_back(sin(factor*M_PI/180));
+        baseMatrix.at(1).push_back(cos(factor*M_PI/180));
         baseMatrix.at(1).push_back(0.0);
 
         baseMatrix.at(2).push_back(0.0);

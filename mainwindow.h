@@ -38,6 +38,7 @@ private:
     QStringList polystring;
 
     void viewPortTransformation();
+    Coordinate* getViewPortCoordinates(Coordinate* worldCoord);
 
     std::vector<DisplayFileObject*> displayFile;
     std::vector<Coordinate*> polyPoints;
@@ -59,6 +60,8 @@ private slots:
     void on_buttonmove_clicked();
     void on_buttonscale_clicked();
     void on_buttonrotate_clicked();
+
+    void updateScreen();
 };
 
 #endif // MAINWINDOW_H
