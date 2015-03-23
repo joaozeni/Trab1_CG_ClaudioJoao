@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     displayfileobject.cpp \
     coordinate.cpp \
-    qviewport.cpp
+    qviewport.cpp \
+    window.cpp
 
 HEADERS  += mainwindow.h \
     displayfileobject.h \
     coordinate.h \
     geometricobject.h \
-    qviewport.h
+    qviewport.h \
+    window.h
 
 FORMS    += mainwindow.ui
