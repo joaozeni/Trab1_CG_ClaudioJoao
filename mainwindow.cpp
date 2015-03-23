@@ -69,8 +69,14 @@ void MainWindow::updateScreen()
 
 void MainWindow::on_buttonplus_clicked()
 {
-    wMaxX = wMaxX * 1.1;
-    wMaxY = wMaxY * 1.1;
+    int viewportXSize = wMaxX - wMinX;
+    int viewportYSize = wMaxY - wMinY;
+    float factor = 0.1;
+    wMaxX -= viewportXSize*factor;
+    wMaxY -= viewportYSize*factor;
+    wMinX += viewportXSize*factor;
+    wMinY += viewportYSize*factor;
+
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -78,8 +84,13 @@ void MainWindow::on_buttonplus_clicked()
 
 void MainWindow::on_buttonminus_clicked()
 {
-    wMaxX = wMaxX * 0.9;
-    wMaxY = wMaxY * 0.9;
+    int viewportXSize = wMaxX - wMinX;
+    int viewportYSize = wMaxY - wMinY;
+    float factor = 0.1;
+    wMaxX += viewportXSize*factor;
+    wMaxY += viewportYSize*factor;
+    wMinX -= viewportXSize*factor;
+    wMinY -= viewportYSize*factor;
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
