@@ -70,8 +70,10 @@ void MainWindow::on_buttonminus_clicked()
 
 void MainWindow::on_buttonup_clicked()
 {
-    wMaxY += 10.0;
-    wMinY += 10.0;
+    Coordinate * c = new Coordinate(1.0,0.0);
+    // wMaxY += 10.0;
+    // wMinY += 10.0;
+    window->move(c);
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -239,14 +241,14 @@ void MainWindow::viewPortTransformation()
         DisplayFileObject * obj = window->getObject(i);
         std::string type = obj->getType();
         list << QString::fromStdString(obj->getName());
+        std::vector<Coordinate*> c = obj->getNormalizedCoordinates();
         if(type == "point"){
-            Coordinate * coor = getViewPortCoordinates(obj->getCoordinates().at(0));
+            Coordinate * coor = getViewPortCoordinates(c.at(0));
             Point * p = new Point(coor);
             DisplayFileObject * dispobj = new DisplayFileObject(p, obj->getName());
             transformed.push_back(dispobj);
         }
         else if(type == "line"){
-            std::vector<Coordinate*> c = obj->getCoordinates();
             Coordinate * coor1 = getViewPortCoordinates(c.at(0));
             Coordinate * coor2 = getViewPortCoordinates(c.at(1));
             Line * l = new Line(coor1, coor2);
@@ -255,7 +257,6 @@ void MainWindow::viewPortTransformation()
         }
         else{
             Polygon * p = new Polygon();
-            std::vector<Coordinate*> c = obj->getCoordinates();
             for(int j = 0; j < c.size(); j++){
                 Coordinate * coor = getViewPortCoordinates(c.at(j));
                 p->addPoint(coor);

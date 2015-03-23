@@ -12,6 +12,10 @@ std::vector<Coordinate *> DisplayFileObject::getCoordinates(){
     return object->getCoordinates();
 }
 
+std::vector<Coordinate*> DisplayFileObject::getNormalizedCoordinates(){
+    return object->getNormalizedCoordinates();
+}
+
 std::string DisplayFileObject::getName(){
     return object_name;
 }
@@ -30,4 +34,8 @@ void DisplayFileObject::scale(Coordinate * c){
 
 void DisplayFileObject::rotate(float factor){
     object->rotate(factor);
+}
+
+void DisplayFileObject::normalize(std::vector<std::vector<float> > transformM){
+    object->normalize(transformM);
 }

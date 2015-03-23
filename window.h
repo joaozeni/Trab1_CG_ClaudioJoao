@@ -2,6 +2,8 @@
 #define WINDOW_H
 
 #include <vector>
+#include <cmath>
+#include <iostream>
 #include "geometricobject.h"
 #include "coordinate.h"
 #include "displayfileobject.h"
@@ -22,6 +24,7 @@ public:
 private:
     Polygon * mywindow;
     std::vector<DisplayFileObject*> displayfile;
+    std::vector<DisplayFileObject*> normalizeddisplayfile;
 };
 
 #endif // WINDOW_H
