@@ -66,6 +66,18 @@ public:
 
         return baseMatrix;
     }
+    Coordinate * getCenter(){
+        float cx = 0.0;
+        float cy = 0.0;
+        for(int i =0; i < c.size(); i++){
+            cx = cx + c.at(i)->x();
+            cy = cy + c.at(i)->y();
+        }
+        cx = cx/c.size();
+        cy = cy/c.size();
+        Coordinate * coorc = new Coordinate(cx, cy);
+        return coorc;
+    }
 protected:
     std::string type;
     std::vector<Coordinate*> c;
@@ -119,11 +131,9 @@ public:
         c.at(1) = newcoor1;
     };
     void scale(Coordinate *coor){
-        float cx = (c.at(0)->x() + c.at(1)->x())/2;
-        float cy = (c.at(0)->y() + c.at(1)->y())/2;
-        float mcx = -cx;
-        float mcy = -cy;
-        Coordinate * coorc = new Coordinate(cx, cy);
+        Coordinate * coorc = getCenter();
+        float mcx = -coorc->x();
+        float mcy = -coorc->y();
         Coordinate * coormc = new Coordinate(mcx, mcy);
 
         std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
@@ -145,11 +155,9 @@ public:
         c.at(1) = newcoor1;
     };
     void rotate(float factor){
-        float cx = (c.at(0)->x() + c.at(1)->x())/2;
-        float cy = (c.at(0)->y() + c.at(1)->y())/2;
-        float mcx = -cx;
-        float mcy = -cy;
-        Coordinate * coorc = new Coordinate(cx, cy);
+        Coordinate * coorc = getCenter();
+        float mcx = -coorc->x();
+        float mcy = -coorc->y();
         Coordinate * coormc = new Coordinate(mcx, mcy);
 
         std::vector<std::vector<float> > rotateM = generateRotateMatrix(factor);
@@ -192,17 +200,9 @@ public:
         }
     };
     void scale(Coordinate *coor){
-        float cx = 0.0;
-        float cy = 0.0;
-        for(int i =0; i < c.size(); i++){
-            cx = cx + c.at(i)->x();
-            cy = cy + c.at(i)->y();
-        }
-        cx = cx/c.size();
-        cy = cy/c.size();
-        float mcx = -cx;
-        float mcy = -cy;
-        Coordinate * coorc = new Coordinate(cx, cy);
+        Coordinate * coorc = getCenter();
+        float mcx = -coorc->x();
+        float mcy = -coorc->y();
         Coordinate * coormc = new Coordinate(mcx, mcy);
 
         std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
@@ -222,17 +222,9 @@ public:
         }
     };
     void rotate(float factor){
-        float cx = 0.0;
-        float cy = 0.0;
-        for(int i =0; i < c.size(); i++){
-            cx = cx + c.at(i)->x();
-            cy = cy + c.at(i)->y();
-        }
-        cx = cx/c.size();
-        cy = cy/c.size();
-        float mcx = -cx;
-        float mcy = -cy;
-        Coordinate * coorc = new Coordinate(cx, cy);
+        Coordinate * coorc = getCenter();
+        float mcx = -coorc->x();
+        float mcy = -coorc->y();
         Coordinate * coormc = new Coordinate(mcx, mcy);
 
         std::vector<std::vector<float> > rotateM = generateRotateMatrix(factor);
