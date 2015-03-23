@@ -61,6 +61,8 @@ private slots:
     void on_buttonscale_clicked();
     void on_buttonrotate_clicked();
 
+    bool eventFilter(QObject *object, QEvent *event);
+
     void updateScreen();
 };
 
