@@ -78,6 +78,42 @@ public:
         Coordinate * coorc = new Coordinate(cx, cy);
         return coorc;
     }
+    float getXMax(){
+        float maxx = c.at(0)->x();
+        for(int i =0; i < c.size(); i++){
+            if (maxx < c.at(i)->x()) {
+                maxx = c.at(i)->x();
+            }
+        }
+        return maxx;
+    }
+    float getYMax(){
+        float maxy = c.at(0)->y();
+        for(int i =0; i < c.size(); i++){
+            if (maxy < c.at(i)->y()) {
+                maxy = c.at(i)->y();
+            }
+        }
+        return maxy;
+    }
+    float getXMin(){
+        float minx = c.at(0)->x();
+        for(int i =0; i < c.size(); i++){
+            if (minx > c.at(i)->x()) {
+                minx = c.at(i)->x();
+            }
+        }
+        return minx;
+    }
+    float getYMin(){
+        float miny = c.at(0)->y();
+        for(int i =0; i < c.size(); i++){
+            if (miny > c.at(i)->y()) {
+                miny = c.at(i)->y();
+            }
+        }
+        return miny;
+    }
 protected:
     std::string type;
     std::vector<Coordinate*> c;

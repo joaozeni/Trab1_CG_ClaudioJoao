@@ -24,21 +24,21 @@ DisplayFileObject * Window::getObject(int position){
 }
 
 float Window::maxX(){
-    std::vector<Coordinate*> c = mywindow->getCoordinates();
-    return c.at(2)->x();
+    return mywindow->getXMax();
 }
 
 float Window::minX(){
-    std::vector<Coordinate*> c = mywindow->getCoordinates();
-    return c.at(0)->x();
+    return mywindow->getXMin();
 }
 
 float Window::maxY(){
-    std::vector<Coordinate*> c = mywindow->getCoordinates();
-    return c.at(2)->y();
+    return mywindow->getYMax();
 }
 
 float Window::minY(){
-    std::vector<Coordinate*> c = mywindow->getCoordinates();
-    return c.at(0)->y();
+    return mywindow->getYMin();
+}
+
+void Window::move(Coordinate * c){
+    mywindow->move(c);
 }

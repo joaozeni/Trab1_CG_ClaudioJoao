@@ -18,6 +18,7 @@ public:
     float minX();
     float maxY();
     float minY();
+    void move(Coordinate * c);
 private:
     Polygon * mywindow;
     std::vector<DisplayFileObject*> displayfile;
