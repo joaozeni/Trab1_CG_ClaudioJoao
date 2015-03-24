@@ -43,7 +43,7 @@ private:
 
     //std::vector<DisplayFileObject*> displayFile;
 
-    Window * window = new Window();
+    Window * window;
 
     std::vector<Coordinate*> polyPoints;
 

@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->objslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
+    window = new Window();
+
     window->addObject(new DisplayFileObject(new Point(new Coordinate(10, 10)), "ponto"));
 //    displayFile.push_back(new DisplayFileObject(new Point(new Coordinate(10, 10))
 //                                                ,"ponto"));
@@ -29,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
     p->addPoint(new Coordinate(50, 100));
     window->addObject(new DisplayFileObject(p, "Poly"));
     //displayFile.push_back(new DisplayFileObject(p, "Poly"));
+
+    window->normalize();
 
     viewPortTransformation();
 
@@ -52,8 +56,8 @@ void MainWindow::updateScreen()
 
 void MainWindow::on_buttonplus_clicked()
 {
-    wMaxX = wMaxX * 1.1;
-    wMaxY = wMaxY * 1.1;
+    //window->zoom(0.1);
+    window->rotate(15.0);
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -61,8 +65,7 @@ void MainWindow::on_buttonplus_clicked()
 
 void MainWindow::on_buttonminus_clicked()
 {
-    wMaxX = wMaxX * 0.9;
-    wMaxY = wMaxY * 0.9;
+    window->zoom(-0.1);
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -70,9 +73,7 @@ void MainWindow::on_buttonminus_clicked()
 
 void MainWindow::on_buttonup_clicked()
 {
-    Coordinate * c = new Coordinate(1.0,0.0);
-    // wMaxY += 10.0;
-    // wMinY += 10.0;
+    Coordinate * c = new Coordinate(0.0,5.0);
     window->move(c);
     viewPortTransformation();
     ui->canvas->update();
@@ -81,8 +82,8 @@ void MainWindow::on_buttonup_clicked()
 
 void MainWindow::on_buttondown_clicked()
 {
-    wMaxY -= 10.0;
-    wMinY -= 10.0;
+    Coordinate * c = new Coordinate(0.0,-5.0);
+    window->move(c);
     viewPortTransformation();
     ui->canvas->update();
 
@@ -91,17 +92,17 @@ void MainWindow::on_buttondown_clicked()
 
 void MainWindow::on_buttonleft_clicked()
 {
-    wMaxX += 10.0;
-    wMinX += 10.0;
-    ui->canvas->update();
+    Coordinate * c = new Coordinate(-5.0,0.0);
+    window->move(c);
     viewPortTransformation();
+    ui->canvas->update();
     //redraw();
 }
 
 void MainWindow::on_buttonright_clicked()
 {
-    wMaxX -= 10.0;
-    wMinX -= 10.0;
+    Coordinate * c = new Coordinate(5.0,0.0);
+    window->move(c);
     viewPortTransformation();
     ui->canvas->update();
     //redraw();

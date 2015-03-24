@@ -6,7 +6,6 @@ Window::Window(){
     mywindow->addPoint(new Coordinate(550, 0));
     mywindow->addPoint(new Coordinate(550, 550));
     mywindow->addPoint(new Coordinate(0, 550));
-
 }
 
 Window::~Window(){
@@ -40,8 +39,7 @@ float Window::minY(){
     return -1.0;
 }
 
-void Window::move(Coordinate * c){
-    mywindow->move(c);
+void Window::normalize(){
     std::vector<Coordinate*> coors = mywindow->getCoordinates();
     Coordinate * wc = mywindow->getCenter();
     Coordinate * vup = new Coordinate(((coors.at(2)->x()+coors.at(3)->x())/2)-wc->x(),((coors.at(2)->y()+coors.at(3)->y())/2)-wc->y());
@@ -49,7 +47,7 @@ void Window::move(Coordinate * c){
     float dot = (vup->x()*yvec[0]) + (vup->y()*yvec[1]);
     float det = (vup->x()*yvec[1]) - (vup->y()*yvec[0]);
     float angle = (atan2(det, dot)*180)/ M_PI;
-    Coordinate * scalec = new Coordinate(2.0/550.0,2.0/550.0);
+    Coordinate * scalec = new Coordinate(2.0/mywindow->getXMax(),2.0/mywindow->getYMax());
     Coordinate * mwc = new Coordinate(-wc->x(),-wc->y());
 
     std::vector<std::vector<float> > moveM = mwc->generateMoveMatrix();
@@ -62,4 +60,20 @@ void Window::move(Coordinate * c){
     for(int i = 0; i < displayfile.size(); i++){
         displayfile.at(i)->normalize(finalM);
     }
+}
+
+void Window::move(Coordinate * c){
+    mywindow->move(c);
+    normalize();
+}
+
+void Window::zoom(float factor){
+    Coordinate * c = new Coordinate(1.0+factor,1.0+factor);
+    mywindow->scale(c);
+    normalize();
+}
+
+void Window::rotate(float factor){
+    mywindow->rotate(factor);
+    normalize();
 }

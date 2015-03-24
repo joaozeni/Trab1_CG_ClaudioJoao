@@ -21,6 +21,9 @@ public:
     float maxY();
     float minY();
     void move(Coordinate * c);
+    void zoom(float factor);
+    void rotate(float factor);
+    void normalize();
 private:
     Polygon * mywindow;
     std::vector<DisplayFileObject*> displayfile;
