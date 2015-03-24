@@ -56,8 +56,7 @@ void MainWindow::updateScreen()
 
 void MainWindow::on_buttonplus_clicked()
 {
-    //window->zoom(0.1);
-    window->rotate(15.0);
+    window->zoom(0.1);
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -69,6 +68,12 @@ void MainWindow::on_buttonminus_clicked()
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
+}
+
+void MainWindow::on_buttonrotatewindow_clicked(){
+    window->rotate(15.0);
+    viewPortTransformation();
+    ui->canvas->update();
 }
 
 void MainWindow::on_buttonup_clicked()

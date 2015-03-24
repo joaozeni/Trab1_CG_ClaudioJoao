@@ -64,6 +64,7 @@ private slots:
     void on_buttonmove_clicked();
     void on_buttonscale_clicked();
     void on_buttonrotate_clicked();
+    void on_buttonrotatewindow_clicked();
 
     void updateScreen();
 };
