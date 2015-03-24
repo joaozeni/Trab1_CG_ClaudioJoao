@@ -117,14 +117,8 @@ void MainWindow::on_buttondown_clicked()
 
 void MainWindow::on_buttonleft_clicked()
 {
-<<<<<<< HEAD
     Coordinate * c = new Coordinate(-5.0,0.0);
     window->move(c);
-=======
-    wMaxX -= 10.0;
-    wMinX -= 10.0;
-    ui->canvas->update();
->>>>>>> 2782b9a7e4e3e3ece4148157b44b6fcdf9ca752b
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -132,13 +126,8 @@ void MainWindow::on_buttonleft_clicked()
 
 void MainWindow::on_buttonright_clicked()
 {
-<<<<<<< HEAD
     Coordinate * c = new Coordinate(5.0,0.0);
     window->move(c);
-=======
-    wMaxX += 10.0;
-    wMinX += 10.0;
->>>>>>> 2782b9a7e4e3e3ece4148157b44b6fcdf9ca752b
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
