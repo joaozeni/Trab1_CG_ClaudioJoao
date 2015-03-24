@@ -38,7 +38,27 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //updateScreen();
 
+    QApplication::instance()->installEventFilter(this);
+
     ui->canvas->update();
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event) {
+  if (event->type() == QEvent::KeyPress) {
+    QKeyEvent* e = static_cast<QKeyEvent*>(event);
+    bool ret = true;
+    switch(e->key()) {
+        case Qt::Key_Up: this->on_buttonup_clicked(); break;
+        case Qt::Key_Down: this->on_buttondown_clicked(); break;
+        case Qt::Key_Left: this->on_buttonleft_clicked(); break;
+        case Qt::Key_Right: this->on_buttonright_clicked(); break;
+        case Qt::Key_Plus: this->on_buttonplus_clicked(); break;
+        case Qt::Key_Minus: this->on_buttonminus_clicked(); break;
+    default: ret = false;
+    }
+    return ret;
+  }
+  return false;
 }
 
 MainWindow::~MainWindow()
@@ -49,9 +69,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateScreen()
 {
-    ui->label_botlef->setText(QString::number(vpMinX) + ", " + QString::number(vpMinY));
-    ui->label_botrig->setText(QString::number(vpMaxX));
-    ui->label_toplef->setText(QString::number(vpMaxY));
+    ui->label_botlef->setText(QString::number(wMinX) + ", " + QString::number(wMinY));
+    ui->label_botrig->setText(QString::number(wMaxX));
+    ui->label_toplef->setText(QString::number(wMaxY));
 }
 
 void MainWindow::on_buttonplus_clicked()
@@ -97,8 +117,14 @@ void MainWindow::on_buttondown_clicked()
 
 void MainWindow::on_buttonleft_clicked()
 {
+<<<<<<< HEAD
     Coordinate * c = new Coordinate(-5.0,0.0);
     window->move(c);
+=======
+    wMaxX -= 10.0;
+    wMinX -= 10.0;
+    ui->canvas->update();
+>>>>>>> 2782b9a7e4e3e3ece4148157b44b6fcdf9ca752b
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
@@ -106,8 +132,13 @@ void MainWindow::on_buttonleft_clicked()
 
 void MainWindow::on_buttonright_clicked()
 {
+<<<<<<< HEAD
     Coordinate * c = new Coordinate(5.0,0.0);
     window->move(c);
+=======
+    wMaxX += 10.0;
+    wMinX += 10.0;
+>>>>>>> 2782b9a7e4e3e3ece4148157b44b6fcdf9ca752b
     viewPortTransformation();
     ui->canvas->update();
     //redraw();
