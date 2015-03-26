@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <fstream>
+#include <sstream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,16 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->objslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    displayFile.push_back(new DisplayFileObject(new Point(new Coordinate(10, 10))
-                                                ,"ponto"));
-    displayFile.push_back(new DisplayFileObject(new Line(new Coordinate(20, 20), new Coordinate(100,100))
-                                                ,"linha"));
-    Polygon *p = new Polygon();
-    p->addPoint(new Coordinate(50, 50));
-    p->addPoint(new Coordinate(100, 50));
-    p->addPoint(new Coordinate(100, 100));
-    p->addPoint(new Coordinate(50, 100));
-    displayFile.push_back(new DisplayFileObject(p, "Poly"));
+    loadObj();
 
     viewPortTransformation();
 
@@ -33,7 +26,75 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QApplication::instance()->installEventFilter(this);
 
+    ui->label_status->setText("Bem vindo");
+    ui->frame->setStyleSheet("border: 1px solid red");
+
+
     ui->canvas->update();
+}
+
+void MainWindow::loadObj() {
+    std::vector<Coordinate> coords;
+    std::string line;
+    std::ifstream myfile ("/home/user/Trab1_CG_ClaudioJoao/test.obj");
+    std::string current_object = "";
+    if (myfile.is_open()) {
+        while ( getline (myfile,line) ) {
+            std::stringstream iss(line);
+            std::string command;
+            getline(iss, command, ' ');
+            if(command == "v") {
+                float x;
+                float y;
+                float z;
+                std::string element;
+                getline(iss, element, ' ');
+                x = std::atof(element.c_str());
+                getline(iss, element, ' ');
+                y = std::atof(element.c_str());
+                getline(iss, element, ' ');
+                z = std::atof(element.c_str());
+                coords.push_back(Coordinate(x,y,z));
+            } else if(command == "o") {
+                getline(iss, current_object, ' ');
+            } else if(command == "p") {
+                std::string coord;
+                getline(iss, coord, ' ');
+                int n = std::atoi(coord.c_str())-1;
+                displayFile.push_back(new DisplayFileObject(
+                                          new Point(coords.at(n)),
+                                          current_object
+                                          )
+                                      );
+            }  else if(command == "l") {
+                int spaces = std::count(line.begin(), line.end(), ' ');
+                if(spaces == 2) {// LINHA
+                    std::string coord;
+                    getline(iss, coord, ' ');
+                    int a = std::atoi(coord.c_str())-1;
+                    getline(iss, coord, ' ');
+                    int b = std::atoi(coord.c_str())-1;
+                    displayFile.push_back(new DisplayFileObject(
+                                              new Line(coords.at(a), coords.at(b)),
+                                              current_object
+                                              )
+                                          );
+                } else { // POLIGONO
+                    Polygon* p = new Polygon();
+                    std::string coord;
+                    while(getline(iss, coord, ' ')) {
+                        int n = std::atoi(coord.c_str())-1;
+                        Coordinate c = coords.at(n);
+                        p->addPoint(c);
+                    }
+                    displayFile.push_back(new DisplayFileObject(p, current_object));
+                }
+            }
+
+            std::cout << "LOLA" << '\n';
+        }
+        myfile.close();
+    }
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {
@@ -50,6 +111,9 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event) {
     default: ret = false;
     }
     return ret;
+  } else if (event->type() == QEvent::MouseButtonPress) {
+    QMouseEvent* e = static_cast<QMouseEvent*>(event);
+    clickdrag_createline(false, e->x(), e->y());
   }
   return false;
 }
@@ -150,6 +214,13 @@ void MainWindow::on_createpoint_clicked()
     //redraw();
 }
 
+void MainWindow::clickdrag_createline(bool release, int x, int y)
+{
+    //x -= ui->frame->x()+10;
+    //y = vpMaxY-(y-ui->frame->y())+10;
+    ui->label_status->setText(QString::number(x) + ", " + QString::number(y));
+}
+
 void MainWindow::on_createline_clicked()
 {
     std::string name = ui->nameline->toPlainText().toStdString();
@@ -157,18 +228,26 @@ void MainWindow::on_createline_clicked()
     float yi = ui->yiline->toPlainText().toFloat();
     float xf = ui->xfline->toPlainText().toFloat();
     float yf = ui->yfline->toPlainText().toFloat();
-    Coordinate * coor1 = new Coordinate(xi, yi);
-    Coordinate * coor2 = new Coordinate(xf, yf);
-    Line * l = new Line(coor1, coor2);
-    DisplayFileObject * d = new DisplayFileObject(l, name);
-    displayFile.push_back(d);
-    viewPortTransformation();
-    ui->canvas->update();
-    ui->nameline->clear();
-    ui->xiline->clear();
-    ui->yiline->clear();
-    ui->xfline->clear();
-    ui->yfline->clear();
+
+    if(name == "")
+        return;
+    if(xi == 0.0 && yi == 0.0 && xf == 0.0 && yf == 0.0) {
+        drawingLine = true;
+        ui->label_status->setText("Clique na tela");
+    } else {
+        Coordinate * coor1 = new Coordinate(xi, yi);
+        Coordinate * coor2 = new Coordinate(xf, yf);
+        Line * l = new Line(coor1, coor2);
+        DisplayFileObject * d = new DisplayFileObject(l, name);
+        displayFile.push_back(d);
+        viewPortTransformation();
+        ui->canvas->update();
+        ui->nameline->clear();
+        ui->xiline->clear();
+        ui->yiline->clear();
+        ui->xfline->clear();
+        ui->yfline->clear();
+    }
     //redraw();
 }
 

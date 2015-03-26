@@ -97,6 +97,7 @@ public:
     QLabel *label_12;
     QLabel *label_botlef;
     QLabel *label_botrig;
+    QLabel *label_status;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -213,7 +214,7 @@ public:
         label_toplef->setGeometry(QRect(0, 0, 57, 15));
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        tabWidget->setGeometry(QRect(870, 0, 291, 541));
+        tabWidget->setGeometry(QRect(870, 0, 291, 411));
         Ponto = new QWidget();
         Ponto->setObjectName(QString::fromUtf8("Ponto"));
         label = new QLabel(Ponto);
@@ -353,6 +354,9 @@ public:
         label_botrig = new QLabel(centralWidget);
         label_botrig->setObjectName(QString::fromUtf8("label_botrig"));
         label_botrig->setGeometry(QRect(850, 550, 57, 15));
+        label_status = new QLabel(centralWidget);
+        label_status->setObjectName(QString::fromUtf8("label_status"));
+        label_status->setGeometry(QRect(880, 420, 271, 61));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -367,7 +371,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -412,6 +416,7 @@ public:
         label_12->setText(QApplication::translate("MainWindow", "Window", 0, QApplication::UnicodeUTF8));
         label_botlef->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         label_botrig->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
+        label_status->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

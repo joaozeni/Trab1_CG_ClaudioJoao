@@ -33,6 +33,8 @@ private:
     float wMaxX = 500.0;
     float wMaxY = 500.0;
 
+    bool drawingLine = false;
+
     QStringListModel *objlist;
     QStringListModel *polypointslist;
     QStringList polystring;
@@ -61,6 +63,9 @@ private slots:
     void on_buttonscale_clicked();
     void on_buttonrotate_clicked();
 
+    void clickdrag_createline(bool release, int x, int y);
+
+    void loadObj();
     bool eventFilter(QObject *object, QEvent *event);
 
     void updateScreen();

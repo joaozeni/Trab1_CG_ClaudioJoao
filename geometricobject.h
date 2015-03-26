@@ -77,6 +77,11 @@ public:
         type = "point";
         c.push_back(coor);
     };
+    Point(Coordinate& refcoor){
+        type = "point";
+        Coordinate* coor = new Coordinate(refcoor.x(), refcoor.y(), refcoor.z());
+        c.push_back(coor);
+    };
     void move(Coordinate *coor){
         std::vector<std::vector<float> > moveM = coor->generateMoveMatrix();
         std::vector<std::vector<float> > baseM = c.at(0)->generateBaseMatrix();
@@ -104,6 +109,13 @@ class Line: public GeometricObject {
 public:
     Line(Coordinate * coor1, Coordinate * coor2){
         type = "line";
+        c.push_back(coor1);
+        c.push_back(coor2);
+    };
+    Line(Coordinate& refcoor1, Coordinate& refcoor2){
+        type = "line";
+        Coordinate* coor1 = new Coordinate(refcoor1.x(), refcoor1.y(), refcoor1.z());
+        Coordinate* coor2 = new Coordinate(refcoor2.x(), refcoor2.y(), refcoor2.z());
         c.push_back(coor1);
         c.push_back(coor2);
     };
@@ -178,6 +190,10 @@ public:
         type = "polygon";
     };
     void addPoint(Coordinate * coor){
+        c.push_back(coor);
+    };
+    void addPoint(Coordinate& refcoor){
+        Coordinate* coor = new Coordinate(refcoor.x(), refcoor.y(), refcoor.z());
         c.push_back(coor);
     };
     void move(Coordinate *coor){
