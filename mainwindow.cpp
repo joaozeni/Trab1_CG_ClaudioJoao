@@ -65,6 +65,15 @@ void MainWindow::loadObj(QString filename) {
                                           current_object
                                           )
                                       );
+            } else if(command == "f") {
+                Polygon* p = new Polygon();
+                std::string coord;
+                while(getline(iss, coord, ' ')) {
+                    int n = std::atoi(coord.c_str())-1;
+                    Coordinate c = coords.at(n);
+                    p->addPoint(c);
+                }
+                displayFile.push_back(new DisplayFileObject(p, current_object));
             }  else if(command == "l") {
                 int spaces = std::count(line.begin(), line.end(), ' ');
                 if(spaces == 2) {// LINHA

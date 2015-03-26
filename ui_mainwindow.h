@@ -98,6 +98,7 @@ public:
     QLabel *label_botlef;
     QLabel *label_botrig;
     QLabel *label_status;
+    QPushButton *open_obj_btn;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -357,6 +358,9 @@ public:
         label_status = new QLabel(centralWidget);
         label_status->setObjectName(QString::fromUtf8("label_status"));
         label_status->setGeometry(QRect(880, 420, 271, 61));
+        open_obj_btn = new QPushButton(centralWidget);
+        open_obj_btn->setObjectName(QString::fromUtf8("open_obj_btn"));
+        open_obj_btn->setGeometry(QRect(10, 510, 131, 23));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -417,6 +421,7 @@ public:
         label_botlef->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         label_botrig->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         label_status->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
+        open_obj_btn->setText(QApplication::translate("MainWindow", "Abrir OBJ", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
