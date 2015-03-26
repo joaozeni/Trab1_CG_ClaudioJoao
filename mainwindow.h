@@ -65,10 +65,11 @@ private slots:
 
     void clickdrag_createline(bool release, int x, int y);
 
-    void loadObj();
+    void loadObj(QString filename);
     bool eventFilter(QObject *object, QEvent *event);
 
     void updateScreen();
+    void on_open_obj_btn_clicked();
 };
 
 #endif // MAINWINDOW_H

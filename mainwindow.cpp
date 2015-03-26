@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <fstream>
 #include <sstream>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,8 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->objslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    loadObj();
-
     viewPortTransformation();
 
     //updateScreen();
@@ -33,10 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->canvas->update();
 }
 
-void MainWindow::loadObj() {
+void MainWindow::loadObj(QString filename) {
     std::vector<Coordinate> coords;
     std::string line;
-    std::ifstream myfile ("/home/user/Trab1_CG_ClaudioJoao/test.obj");
+    std::ifstream myfile (filename.toStdString().c_str());
     std::string current_object = "";
     if (myfile.is_open()) {
         while ( getline (myfile,line) ) {
@@ -91,10 +90,10 @@ void MainWindow::loadObj() {
                 }
             }
 
-            std::cout << "LOLA" << '\n';
         }
         myfile.close();
     }
+    viewPortTransformation();
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {
@@ -368,4 +367,11 @@ void MainWindow::viewPortTransformation()
     objlist->setStringList(list);
     updateScreen();
     ui->canvas->updateObjects(transformed);
+}
+
+void MainWindow::on_open_obj_btn_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+             tr("Open File"), "/home", tr("OBJ Files (*.obj)"));
+    loadObj(fileName);
 }
