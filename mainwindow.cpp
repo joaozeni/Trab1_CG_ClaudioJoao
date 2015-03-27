@@ -21,20 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     window = new Window();
 
-    window->addObject(new DisplayFileObject(new Point(new Coordinate(10, 10)), "ponto"));
-//    displayFile.push_back(new DisplayFileObject(new Point(new Coordinate(10, 10))
-//                                                ,"ponto"));
-//    displayFile.push_back(new DisplayFileObject(new Line(new Coordinate(20, 20), new Coordinate(100,100))
-//                                                ,"linha"));
-    window->addObject(new DisplayFileObject(new Line(new Coordinate(20, 20), new Coordinate(100,100)),"linha"));
-    Polygon *p = new Polygon();
-    p->addPoint(new Coordinate(50, 50));
-    p->addPoint(new Coordinate(100, 50));
-    p->addPoint(new Coordinate(100, 100));
-    p->addPoint(new Coordinate(50, 100));
-    window->addObject(new DisplayFileObject(p, "Poly"));
-    //displayFile.push_back(new DisplayFileObject(p, "Poly"));
-
     window->normalize();
 
     viewPortTransformation();
@@ -78,7 +64,7 @@ void MainWindow::loadObj(QString filename) {
                 std::string coord;
                 getline(iss, coord, ' ');
                 int n = std::atoi(coord.c_str())-1;
-                displayFile.push_back(new DisplayFileObject(
+                window->addObject(new DisplayFileObject(
                                           new Point(coords.at(n)),
                                           current_object
                                           )
@@ -91,7 +77,7 @@ void MainWindow::loadObj(QString filename) {
                     Coordinate c = coords.at(n);
                     p->addPoint(c);
                 }
-                displayFile.push_back(new DisplayFileObject(p, current_object));
+                window->addObject(new DisplayFileObject(p, current_object));
             }  else if(command == "l") {
                 int spaces = std::count(line.begin(), line.end(), ' ');
                 if(spaces == 2) {// LINHA
@@ -100,7 +86,7 @@ void MainWindow::loadObj(QString filename) {
                     int a = std::atoi(coord.c_str())-1;
                     getline(iss, coord, ' ');
                     int b = std::atoi(coord.c_str())-1;
-                    displayFile.push_back(new DisplayFileObject(
+                    window->addObject(new DisplayFileObject(
                                               new Line(coords.at(a), coords.at(b)),
                                               current_object
                                               )
@@ -113,7 +99,7 @@ void MainWindow::loadObj(QString filename) {
                         Coordinate c = coords.at(n);
                         p->addPoint(c);
                     }
-                    displayFile.push_back(new DisplayFileObject(p, current_object));
+                    window->addObject(new DisplayFileObject(p, current_object));
                 }
             }
 
