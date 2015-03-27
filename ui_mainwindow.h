@@ -95,6 +95,7 @@ public:
     QPushButton *buttonleft;
     QPushButton *buttonright;
     QLabel *label_12;
+    QPushButton *buttonrotatewindow;
     QLabel *label_botlef;
     QLabel *label_botrig;
     QLabel *label_status;
@@ -308,7 +309,7 @@ public:
         tabWidget->addTab(polygon, QString());
         gridLayoutWidget_2 = new QWidget(centralWidget);
         gridLayoutWidget_2->setObjectName(QString::fromUtf8("gridLayoutWidget_2"));
-        gridLayoutWidget_2->setGeometry(QRect(10, 390, 291, 111));
+        gridLayoutWidget_2->setGeometry(QRect(10, 390, 291, 127));
         gridLayout_4 = new QGridLayout(gridLayoutWidget_2);
         gridLayout_4->setSpacing(6);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -349,6 +350,11 @@ public:
 
         gridLayout_4->addWidget(label_12, 0, 0, 1, 1);
 
+        buttonrotatewindow = new QPushButton(gridLayoutWidget_2);
+        buttonrotatewindow->setObjectName(QString::fromUtf8("buttonrotatewindow"));
+
+        gridLayout_4->addWidget(buttonrotatewindow, 0, 1, 1, 1);
+
         label_botlef = new QLabel(centralWidget);
         label_botlef->setObjectName(QString::fromUtf8("label_botlef"));
         label_botlef->setGeometry(QRect(300, 550, 57, 15));
@@ -364,7 +370,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1177, 20));
+        menuBar->setGeometry(QRect(0, 0, 1177, 22));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -418,6 +424,7 @@ public:
         buttonleft->setText(QApplication::translate("MainWindow", "<", 0, QApplication::UnicodeUTF8));
         buttonright->setText(QApplication::translate("MainWindow", ">", 0, QApplication::UnicodeUTF8));
         label_12->setText(QApplication::translate("MainWindow", "Window", 0, QApplication::UnicodeUTF8));
+        buttonrotatewindow->setText(QApplication::translate("MainWindow", "girar", 0, QApplication::UnicodeUTF8));
         label_botlef->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         label_botrig->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         label_status->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));

@@ -8,6 +8,7 @@
 #include "displayfileobject.h"
 #include "coordinate.h"
 #include "qviewport.h"
+#include "window.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,8 +31,8 @@ private:
 
     float wMinX = 0.0;
     float wMinY = 0.0;
-    float wMaxX = 500.0;
-    float wMaxY = 500.0;
+    float wMaxX = 550.0;
+    float wMaxY = 550.0;
 
     bool drawingLine = false;
 
@@ -42,7 +43,10 @@ private:
     void viewPortTransformation();
     Coordinate* getViewPortCoordinates(Coordinate* worldCoord);
 
-    std::vector<DisplayFileObject*> displayFile;
+    //std::vector<DisplayFileObject*> displayFile;
+
+    Window * window;
+
     std::vector<Coordinate*> polyPoints;
 
     //DisplayFileObject * obj = new DisplayFileObject();
@@ -62,6 +66,7 @@ private slots:
     void on_buttonmove_clicked();
     void on_buttonscale_clicked();
     void on_buttonrotate_clicked();
+    void on_buttonrotatewindow_clicked();
 
     void clickdrag_createline(bool release, int x, int y);
 
