@@ -64,17 +64,17 @@ void MainWindow::loadObj(QString filename) {
                 std::string coord;
                 getline(iss, coord, ' ');
                 int n = std::atoi(coord.c_str())-1;
-                //window->addObject(new DisplayFileObject(new Point(coords.at(n)), current_object ) );
+                window->addObject(new DisplayFileObject(new Point(coords.at(n)), current_object ) );
             }
             else if(command == "f") {
                 Polygon* p = new Polygon();
                 std::string coord;
                 while(getline(iss, coord, ' ')) {
                     int n = std::atoi(coord.c_str())-1;
-                    //Coordinate c = coords.at(n);
-                    //p->addPoint(c);
+                    Coordinate c = coords.at(n);
+                    p->addPoint(c);
                 }
-                //window->addObject(new DisplayFileObject(p, current_object));
+                window->addObject(new DisplayFileObject(p, current_object));
             }
             else if(command == "l") {
                 int spaces = std::count(line.begin(), line.end(), ' ');
@@ -84,25 +84,23 @@ void MainWindow::loadObj(QString filename) {
                     int a = std::atoi(coord.c_str())-1;
                     getline(iss, coord, ' ');
                     int b = std::atoi(coord.c_str())-1;
-                    //window->addObject(new DisplayFileObject(new Line(coords.at(0), coords.at(0)), current_object ) );
+                    window->addObject(new DisplayFileObject(new Line(coords.at(a), coords.at(b)), current_object ) );
                 } else { // POLIGONO
                     Polygon* p = new Polygon();
                     std::string coord;
                     while(getline(iss, coord, ' ')) {
                         int n = std::atoi(coord.c_str())-1;
-                        //Coordinate c = coords.at(n);
-                        //p->addPoint(c);
+                        Coordinate c = coords.at(n);
+                        p->addPoint(c);
                     }
-                    //window->addObject(new DisplayFileObject(p, current_object));
+                    window->addObject(new DisplayFileObject(p, current_object));
                 }
             }
 
         }
         myfile.close();
     }
-    window->normalize();
-    viewPortTransformation();
-    ui->canvas->update();
+    updateScreen();
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {
@@ -137,65 +135,55 @@ void MainWindow::updateScreen()
     ui->label_botlef->setText(QString::number(wMinX) + ", " + QString::number(wMinY));
     ui->label_botrig->setText(QString::number(wMaxX));
     ui->label_toplef->setText(QString::number(wMaxY));
+
+    window->normalize();
+    viewPortTransformation();
+    ui->canvas->update();
 }
 
 void MainWindow::on_buttonplus_clicked()
 {
     window->zoom(0.1);
-    viewPortTransformation();
-    ui->canvas->update();
-    //redraw();
+    updateScreen();
 }
 
 void MainWindow::on_buttonminus_clicked()
 {
     window->zoom(-0.1);
-    viewPortTransformation();
-    ui->canvas->update();
-    //redraw();
-}
+    updateScreen();}
 
 void MainWindow::on_buttonrotatewindow_clicked(){
     window->rotate(15.0);
-    viewPortTransformation();
-    ui->canvas->update();
+    updateScreen();
 }
 
 void MainWindow::on_buttonup_clicked()
 {
     Coordinate * c = new Coordinate(0.0,5.0);
     window->move(c);
-    viewPortTransformation();
-    ui->canvas->update();
-    //redraw();
+    updateScreen();
 }
 
 void MainWindow::on_buttondown_clicked()
 {
     Coordinate * c = new Coordinate(0.0,-5.0);
     window->move(c);
-    viewPortTransformation();
-    ui->canvas->update();
 
-    //redraw();
+    updateScreen();
 }
 
 void MainWindow::on_buttonleft_clicked()
 {
     Coordinate * c = new Coordinate(-5.0,0.0);
     window->move(c);
-    viewPortTransformation();
-    ui->canvas->update();
-    //redraw();
+    updateScreen();
 }
 
 void MainWindow::on_buttonright_clicked()
 {
     Coordinate * c = new Coordinate(5.0,0.0);
     window->move(c);
-    viewPortTransformation();
-    ui->canvas->update();
-    //redraw();
+    updateScreen();
 }
 
 void MainWindow::on_createpoint_clicked()
@@ -207,10 +195,7 @@ void MainWindow::on_createpoint_clicked()
     Point * p = new Point(coor);
     DisplayFileObject * d = new DisplayFileObject(p, name);
     window->addObject(d);
-    window->normalize();
-    //displayFile.push_back(d);
-    viewPortTransformation();
-    ui->canvas->update();
+    updateScreen();
     ui->namepoint->clear();
     ui->xpoint->clear();
     ui->ypoint->clear();
@@ -387,7 +372,6 @@ void MainWindow::viewPortTransformation()
         }
     }
     objlist->setStringList(list);
-    updateScreen();
     ui->canvas->updateObjects(transformed);
 }
 

@@ -145,6 +145,7 @@ public:
         type = "point";
         Coordinate* coor = new Coordinate(refcoor.x(), refcoor.y(), refcoor.z());
         c.push_back(coor);
+        normc.push_back(coor);
     };
     void move(Coordinate *coor){
         std::vector<std::vector<float> > moveM = coor->generateMoveMatrix();
@@ -184,6 +185,8 @@ public:
         Coordinate* coor2 = new Coordinate(refcoor2.x(), refcoor2.y(), refcoor2.z());
         c.push_back(coor1);
         c.push_back(coor2);
+        normc.push_back(coor1);
+        normc.push_back(coor2);
     };
     void move(Coordinate *coor){
         std::vector<std::vector<float> > moveM = coor->generateMoveMatrix();
@@ -258,6 +261,7 @@ public:
     void addPoint(Coordinate& refcoor){
         Coordinate* coor = new Coordinate(refcoor.x(), refcoor.y(), refcoor.z());
         c.push_back(coor);
+        normc.push_back(coor);
     };
     void move(Coordinate *coor){
         std::vector<std::vector<float> > baseM;
