@@ -47,7 +47,7 @@ void Window::normalize(){
     float dot = (vup->x()*yvec[0]) + (vup->y()*yvec[1]);
     float det = (vup->x()*yvec[1]) - (vup->y()*yvec[0]);
     float angle = (atan2(det, dot)*180)/ M_PI;
-    Coordinate * scalec = new Coordinate(2.0/mywindow->getXMax(),2.0/mywindow->getYMax());
+    Coordinate * scalec = new Coordinate(2.0/(mywindow->getXMax()-mywindow->getXMin()),2.0/(mywindow->getYMax()-mywindow->getYMin()));
     Coordinate * mwc = new Coordinate(-wc->x(),-wc->y());
 
     std::vector<std::vector<float> > moveM = mwc->generateMoveMatrix();
