@@ -64,21 +64,19 @@ void MainWindow::loadObj(QString filename) {
                 std::string coord;
                 getline(iss, coord, ' ');
                 int n = std::atoi(coord.c_str())-1;
-                window->addObject(new DisplayFileObject(
-                                          new Point(coords.at(n)),
-                                          current_object
-                                          )
-                                      );
-            } else if(command == "f") {
+                //window->addObject(new DisplayFileObject(new Point(coords.at(n)), current_object ) );
+            }
+            else if(command == "f") {
                 Polygon* p = new Polygon();
                 std::string coord;
                 while(getline(iss, coord, ' ')) {
                     int n = std::atoi(coord.c_str())-1;
-                    Coordinate c = coords.at(n);
-                    p->addPoint(c);
+                    //Coordinate c = coords.at(n);
+                    //p->addPoint(c);
                 }
-                window->addObject(new DisplayFileObject(p, current_object));
-            }  else if(command == "l") {
+                //window->addObject(new DisplayFileObject(p, current_object));
+            }
+            else if(command == "l") {
                 int spaces = std::count(line.begin(), line.end(), ' ');
                 if(spaces == 2) {// LINHA
                     std::string coord;
@@ -86,27 +84,25 @@ void MainWindow::loadObj(QString filename) {
                     int a = std::atoi(coord.c_str())-1;
                     getline(iss, coord, ' ');
                     int b = std::atoi(coord.c_str())-1;
-                    window->addObject(new DisplayFileObject(
-                                              new Line(coords.at(a), coords.at(b)),
-                                              current_object
-                                              )
-                                          );
+                    //window->addObject(new DisplayFileObject(new Line(coords.at(0), coords.at(0)), current_object ) );
                 } else { // POLIGONO
                     Polygon* p = new Polygon();
                     std::string coord;
                     while(getline(iss, coord, ' ')) {
                         int n = std::atoi(coord.c_str())-1;
-                        Coordinate c = coords.at(n);
-                        p->addPoint(c);
+                        //Coordinate c = coords.at(n);
+                        //p->addPoint(c);
                     }
-                    window->addObject(new DisplayFileObject(p, current_object));
+                    //window->addObject(new DisplayFileObject(p, current_object));
                 }
             }
 
         }
         myfile.close();
     }
+    window->normalize();
     viewPortTransformation();
+    ui->canvas->update();
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event) {
@@ -211,6 +207,7 @@ void MainWindow::on_createpoint_clicked()
     Point * p = new Point(coor);
     DisplayFileObject * d = new DisplayFileObject(p, name);
     window->addObject(d);
+    window->normalize();
     //displayFile.push_back(d);
     viewPortTransformation();
     ui->canvas->update();
@@ -260,6 +257,7 @@ void MainWindow::on_createline_clicked()
     DisplayFileObject * d = new DisplayFileObject(l, name);
     //displayFile.push_back(d);
     window->addObject(d);
+    window->normalize();
     viewPortTransformation();
     ui->canvas->update();
     ui->nameline->clear();
@@ -339,6 +337,7 @@ void MainWindow::on_createpoly_clicked()
     DisplayFileObject * d = new DisplayFileObject(p, name);
     //displayFile.push_back(d);
     window->addObject(d);
+    window->normalize();
     viewPortTransformation();
     ui->canvas->update();
     ui->namepolygon->clear();
