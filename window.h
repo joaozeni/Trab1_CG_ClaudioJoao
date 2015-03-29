@@ -24,10 +24,12 @@ public:
     void zoom(float factor);
     void rotate(float factor);
     void normalize();
+    void clipLiangBarsky();
 private:
     Polygon * mywindow;
     std::vector<DisplayFileObject*> displayfile;
-    std::vector<DisplayFileObject*> normalizeddisplayfile;
+    //std::vector<DisplayFileObject*> normalizeddisplayfile;
+    std::vector<DisplayFileObject*> clipedObjects;
 };
 
 #endif // WINDOW_H

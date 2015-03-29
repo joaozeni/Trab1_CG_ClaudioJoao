@@ -44,6 +44,8 @@ public:
             newPoint = Matrix::mult(baseM, transformM);
             Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
             normc.at(i) = newcoor;
+            //normc.at(i)->x(newPoint.at(0).at(0));
+            //normc.at(i)->y(newPoint.at(0).at(1));
         }
     }
     std::vector<Coordinate*> getCoordinates(){
