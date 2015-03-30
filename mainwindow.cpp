@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     window->normalize();
 
+    window->clipLiangBarsky();
+
     viewPortTransformation();
 
     //updateScreen();
@@ -137,6 +139,7 @@ void MainWindow::updateScreen()
     ui->label_toplef->setText(QString::number(wMaxY));
 
     window->normalize();
+    window->clipLiangBarsky();
     viewPortTransformation();
     ui->canvas->update();
 }
@@ -242,8 +245,10 @@ void MainWindow::on_createline_clicked()
     DisplayFileObject * d = new DisplayFileObject(l, name);
     //displayFile.push_back(d);
     window->addObject(d);
-    window->normalize();
-    viewPortTransformation();
+    updateScreen();
+    //window->normalize();
+    //window->clipLiangBarsky();
+    //viewPortTransformation();
     ui->canvas->update();
     ui->nameline->clear();
     ui->xiline->clear();

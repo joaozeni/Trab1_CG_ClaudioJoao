@@ -16,11 +16,11 @@ void Window::addObject(DisplayFileObject *d){
 }
 
 int Window::objectCont(){
-    return displayfile.size();
+    return clipedObjects.size();
 }
 
 DisplayFileObject * Window::getObject(int position){
-    return displayfile.at(position);
+    return clipedObjects.at(position);
 }
 
 float Window::maxX(){
@@ -65,7 +65,7 @@ void Window::normalize(){
 void Window::clipLiangBarsky(){
     clipedObjects.clear();
     for(int i = 0; i < displayfile.size(); i++){
-        std::vector<Coordinate*> coords = displayfile.at(i)->getNormalizedCoodinates();
+        std::vector<Coordinate*> coords = displayfile.at(i)->getNormalizedCoordinates();
         if (displayfile.at(i)->getType() == "point"){
             clipedObjects.push_back(displayfile.at(0));
         } else if(displayfile.at(i)->getType() == "line"){
@@ -77,23 +77,23 @@ void Window::clipLiangBarsky(){
             p.push_back(p2);
             float p4 = coords.at(1)->y() - coords.at(0)->y();
             float p3 = -p4;
-            p.psuh_back(p3);
+            p.push_back(p3);
             p.push_back(p4);
-            float q1 = coords.at(0)->x() - mywindow->getXMin();
+            float q1 = coords.at(0)->x() + 0.95;
             q.push_back(q1);
-            float q2 = mywindow->getXMax - coords.at(0)->x();
+            float q2 = 0.95 - coords.at(0)->x();
             q.push_back(q2);
-            float q3 = coords.at(0)->y() - mywindow->getYMin();
+            float q3 = coords.at(0)->y() + 0.95;
             q.push_back(q3);
-            float q4 = mywindow->getYMax - coords.at(0)->y();
+            float q4 = 0.95 - coords.at(0)->y();
             q.push_back(q4);
             std::vector<float> dzeta1;
             dzeta1.push_back(0.0);
             std::vector<float> dzeta2;
             dzeta2.push_back(1.0);
-            for(int k = 0; i < p.size(); k++){
+            for(int k = 0; k < p.size(); k++){
                 if(p.at(k) == 0.0){
-                    if(q.at(k) => 0.0){
+                    if(q.at(k) >= 0.0){
                         clipedObjects.push_back(displayfile.at(i));
                     }
                 } else if(p.at(k) > 0.0){
@@ -121,7 +121,7 @@ void Window::clipLiangBarsky(){
             } else{
                 c2 = coords.at(1);
             }
-            clipedObjectes.push_back(new DisplayFileObject(new Line(c1,c2), displayfile.at(i)->getName()));
+            clipedObjects.push_back(new DisplayFileObject(new Line(c1,c2), displayfile.at(i)->getName()));
         } else{
             clipedObjects.push_back(displayfile.at(0));
         }
@@ -131,15 +131,18 @@ void Window::clipLiangBarsky(){
 void Window::move(Coordinate * c){
     mywindow->move(c);
     normalize();
+    clipLiangBarsky();
 }
 
 void Window::zoom(float factor){
     Coordinate * c = new Coordinate(1.0+factor,1.0+factor);
     mywindow->scale(c);
     normalize();
+    clipLiangBarsky();
 }
 
 void Window::rotate(float factor){
     mywindow->rotate(factor);
     normalize();
+    clipLiangBarsky();
 }
