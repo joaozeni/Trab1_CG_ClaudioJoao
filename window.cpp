@@ -91,10 +91,13 @@ void Window::clipLiangBarsky(){
             dzeta1.push_back(0.0);
             std::vector<float> dzeta2;
             dzeta2.push_back(1.0);
+            Coordinate * c1;
+            Coordinate *c2;
+            bool flag = false;
             for(int k = 0; k < p.size(); k++){
                 if(p.at(k) == 0.0){
-                    if(q.at(k) >= 0.0){
-                        clipedObjects.push_back(displayfile.at(i));
+                    if(q.at(k) < 0.0){
+                        flag = true;
                     }
                 } else if(p.at(k) > 0.0){
                     dzeta2.push_back(q.at(k)/p.at(k));
@@ -103,7 +106,9 @@ void Window::clipLiangBarsky(){
                     dzeta1.push_back(q.at(k)/p.at(k));
                 }
             }
-            Coordinate * c1;
+            if(flag){
+                break;
+            }
             float u1 = *std::max_element(dzeta1.begin(), dzeta1.end());
             if(u1 != 0.0){
                 float x = coords.at(0)->x() + (u1*p2);
@@ -112,7 +117,6 @@ void Window::clipLiangBarsky(){
             } else{
                 c1 = coords.at(0);
             }
-            Coordinate *c2;
             float u2 = *std::min_element(dzeta2.begin(), dzeta2.end());
             if(u1 != 1.0){
                 float x = coords.at(0)->x() + (u2*p2);

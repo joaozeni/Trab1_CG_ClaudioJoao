@@ -153,7 +153,8 @@ void MainWindow::on_buttonplus_clicked()
 void MainWindow::on_buttonminus_clicked()
 {
     window->zoom(-0.1);
-    updateScreen();}
+    updateScreen();
+}
 
 void MainWindow::on_buttonrotatewindow_clicked(){
     window->rotate(15.0);
@@ -281,8 +282,9 @@ void MainWindow::on_buttonmove_clicked(){
 //    DisplayFileObject * d = displayFile.at(r);
     DisplayFileObject * d = window->getObject(r);
     d->move(coor);
-    viewPortTransformation();
-    ui->canvas->update();
+    updateScreen();
+    //viewPortTransformation();
+    //ui->canvas->update();
 }
 
 void MainWindow::on_buttonscale_clicked(){
@@ -296,8 +298,9 @@ void MainWindow::on_buttonscale_clicked(){
 //    DisplayFileObject * d = displayFile.at(r);
     DisplayFileObject * d = window->getObject(r);
     d->scale(coor);
-    viewPortTransformation();
-    ui->canvas->update();
+    updateScreen();
+    //viewPortTransformation();
+    //ui->canvas->update();
 }
 
 void MainWindow::on_buttonrotate_clicked(){
@@ -309,8 +312,9 @@ void MainWindow::on_buttonrotate_clicked(){
 //    DisplayFileObject * d = displayFile.at(r);
     DisplayFileObject * d = window->getObject(r);
     d->rotate(factor);
-    viewPortTransformation();
-    ui->canvas->update();
+    updateScreen();
+    //viewPortTransformation();
+    //ui->canvas->update();
 }
 
 void MainWindow::on_createpoly_clicked()
@@ -327,8 +331,9 @@ void MainWindow::on_createpoly_clicked()
     DisplayFileObject * d = new DisplayFileObject(p, name);
     //displayFile.push_back(d);
     window->addObject(d);
-    window->normalize();
-    viewPortTransformation();
+    updateScreen();
+    //window->normalize();
+    //viewPortTransformation();
     ui->canvas->update();
     ui->namepolygon->clear();
     ui->polyxpoint->clear();
