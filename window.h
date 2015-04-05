@@ -24,7 +24,8 @@ public:
     void zoom(float factor);
     void rotate(float factor);
     void normalize();
-    void clipLiangBarsky();
+    void clip();
+    void clipLineLiangBarsky(std::vector<Coordinate*> coords, int i);
 private:
     Polygon * mywindow;
     std::vector<DisplayFileObject*> displayfile;
