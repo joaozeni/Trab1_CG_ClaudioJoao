@@ -256,6 +256,11 @@ public:
     Polygon(){
         type = "polygon";
     };
+    Polygon(std::vector<Coordinate*> nc){
+        c = nc;
+        normc = nc;
+        type = "polygon";
+    };
     void addPoint(Coordinate * coor){
         c.push_back(coor);
         normc.push_back(coor);
