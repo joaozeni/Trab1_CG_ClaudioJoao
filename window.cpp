@@ -92,6 +92,7 @@ void Window::clipLineLiangBarsky(std::vector<Coordinate*> coords, int i){
     dzeta2.push_back(1.0);
     Coordinate * c1;
     Coordinate *c2;
+    float r;
     bool flag = false;
     for(int k = 0; k < p.size(); k++){
         if(p.at(k) == 0.0){
@@ -99,10 +100,18 @@ void Window::clipLineLiangBarsky(std::vector<Coordinate*> coords, int i){
                 flag = true;
             }
         } else if(p.at(k) > 0.0){
-            dzeta2.push_back(q.at(k)/p.at(k));
+            r = q.at(k)/p.at(k);
+            if(r < 0.0){
+                flag = true;
+            }
+            dzeta2.push_back(r);
         }
         else{
-            dzeta1.push_back(q.at(k)/p.at(k));
+            r = q.at(k)/p.at(k);
+            if(r > 1.0){
+                flag = true;
+            }
+            dzeta1.push_back(r);
         }
     }
     if(flag){
@@ -117,13 +126,14 @@ void Window::clipLineLiangBarsky(std::vector<Coordinate*> coords, int i){
         c1 = coords.at(0);
     }
     float u2 = *std::min_element(dzeta2.begin(), dzeta2.end());
-    if(u1 != 1.0){
-        float x = coords.at(0)->x() + (u2*p2);
-        float y = coords.at(0)->y() + (u2*p4);
+    if(u2 != 1.0){
+        float x = coords.at(1)->x() + (u2*p2);
+        float y = coords.at(1)->y() + (u2*p4);
         c2 = new Coordinate(x,y);
     } else{
         c2 = coords.at(1);
     }
+    //std::cout << c2->x() << "\n";
     clipedObjects.push_back(new DisplayFileObject(new Line(c1,c2), displayfile.at(i)->getName()));
 }
 
@@ -171,20 +181,25 @@ void Window::clipPolygonSutherlandHodgman(std::vector<Coordinate*> coords, int k
             b = clipPoly.at(i+1);
         }
         inputList = outputList;
+//        while (!outputList.empty()){
+//            //std::cout << inputList.back()->y() << "\n";
+//            outputList.pop_back();
+//        }
+        outputList.clear();
         Coordinate * s = inputList.at(inputList.size()-1);
-        //outputList.clear();
-        for (int j = 0; j < inputList.size(); j++){
-        	Coordinate * e = inputList.at(j);
-            if(insideEdge(a,b,e)){
-                if(!insideEdge(a,b,s)){
-                    outputList.push_back(intersection(a,b,s,e));
-                }
-                outputList.push_back(e);
-            } else if(insideEdge(a,b,s)){
-                outputList.push_back(intersection(a,b,s,e));
-            }
-            s = e;
-        }
+         for (int j = 0; j < inputList.size(); j++){
+            Coordinate * e = inputList.at(j);
+            std::cout << s->x() << " i:" << i << " j" << j <<"\n";
+             if(insideEdge(a,b,e)){
+                 if(!insideEdge(a,b,s)){
+                     outputList.push_back(intersection(a,b,s,e));
+                 }
+                 outputList.push_back(e);
+             } else if(insideEdge(a,b,s)){
+                 outputList.push_back(intersection(a,b,s,e));
+             }
+             s = e;
+         }
     }
     clipedObjects.push_back(new DisplayFileObject(new Polygon(outputList), displayfile.at(k)->getName()));
 }
@@ -196,6 +211,7 @@ void Window::clip(){
         if (displayfile.at(i)->getType() == "point"){
             clipedObjects.push_back(displayfile.at(0));
         } else if(displayfile.at(i)->getType() == "line"){
+            //clipedObjects.push_back(displayfile.at(i));
             clipLineLiangBarsky(coords, i);
         } else{
             clipPolygonSutherlandHodgman(coords, i);
