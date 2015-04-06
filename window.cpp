@@ -62,6 +62,89 @@ void Window::normalize(){
     }
 }
 
+void Window::clipLineCohenSutherland(std::vector<Coordinate*> coords, int i){
+    Coordinate* p1 = coords.at(0);
+    Coordinate* p2 = coords.at(1);
+    int p1code = 0;
+    int p2code = 0;
+    if(p1->y() > 0.95)
+        p1code += 1 << 0;
+    if(p1->y() < -0.95)
+        p1code += 1 << 1;
+    if(p1->x() > 0.95)
+        p1code += 1 << 2;
+    if(p1->x() < -0.95)
+        p1code += 1 << 3;
+
+    if(p2->y() > 0.95)
+        p2code += 1 << 0;
+    if(p2->y() < -0.95)
+        p2code += 1 << 1;
+    if(p2->x() > 0.95)
+        p2code += 1 << 2;
+    if(p2->x() < -0.95)
+        p2code += 1 << 3;
+
+    if((p1code & p2code) != 0) // LINHA FORA DA JANELA
+        return;
+    if((p1code == p2code) && p1code == 0) {//LINHA TOTALMENTE DENTRO
+        clipedObjects.push_back(new DisplayFileObject(new Line(*p1,*p2), displayfile.at(i)->getName()));
+        return;
+    }
+
+    // 0 topo - 1 baixo - 2 direita - 3 esquerda
+
+    float p1x = p1->x();
+    float p2x = p2->x();
+    float p1y = p1->y();
+    float p2y = p2->y();
+    float m = (p2y- p1y)/(p2x - p1x);
+
+    while(p1code) {
+        if(p1code & 0x01) { //sai no topo
+            p1x = p1x + (1.0/m)*(0.95-p1y);
+            p1y = 0.95;
+            p1code &= !0x1;
+        } else if(p1code & 0x02) { //sai embaixo
+            p1x = p1x + (1.0/m)*(-0.95-p1y);
+            p1y = -0.95;
+            p1code &= !0x2;
+        } else if(p1code & 0x04) { //sai na direita
+            p1y = m*(0.95 - p1x) + p1y;
+            p1x = 0.95;
+            p1code &= !0x4;
+        } else if(p1code & 0x08) {//sai na esquerda
+            p1y = m*(-0.95 - p1x) + p1y;
+            p1x = -0.95;
+            p1code &= !0x8;
+        }
+    }
+
+    while(p2code) {
+        if(p2code & 0x01) { //sai no topo
+            p2x = p1x + (1.0/m)*(0.95-p1y);
+            p2y = 0.95;
+            p2code &= !0x1;
+        } else if(p2code & 0x02) { //sai embaixo
+            p2x = p1x + (1.0/m)*(-0.95-p1y);
+            p2y = -0.95;
+            p2code &= !0x2;
+        } else if(p2code & 0x04) { //sai na direita
+            p2y = m*(0.95 - p1x) + p1y;
+            p2x = 0.95;
+            p2code &= !0x4;
+        } else if(p2code & 0x08) {//sai na esquerda
+            p2y = m*(-0.95 - p1x) + p1y;
+            p2x = -0.95;
+            p2code &= !0x8;
+        }
+    }
+
+    Coordinate* c1 = new Coordinate(p1x, p1y);
+    Coordinate* c2 = new Coordinate(p2x, p2y);
+    clipedObjects.push_back(new DisplayFileObject(new Line(c1,c2), displayfile.at(i)->getName()));
+}
+
 void Window::clipLineLiangBarsky(std::vector<Coordinate*> coords, int i){
     std::vector<float> p;
     std::vector<float> q;
@@ -129,7 +212,7 @@ void Window::clip(){
         if (displayfile.at(i)->getType() == "point"){
             clipedObjects.push_back(displayfile.at(0));
         } else if(displayfile.at(i)->getType() == "line"){
-            clipLineLiangBarsky(coords, i);
+            clipLineCohenSutherland(coords, i);
             // std::vector<float> p;
             // std::vector<float> q;
             // float p2 = coords.at(1)->x() - coords.at(0)->x();

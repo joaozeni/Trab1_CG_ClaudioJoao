@@ -25,6 +25,7 @@ public:
     void rotate(float factor);
     void normalize();
     void clip();
+    void clipLineCohenSutherland(std::vector<Coordinate*> coords, int i);
     void clipLineLiangBarsky(std::vector<Coordinate*> coords, int i);
 private:
     Polygon * mywindow;
