@@ -188,19 +188,19 @@ void Window::clipPolygonSutherlandHodgman(std::vector<Coordinate*> coords, int k
         Coordinate * s = inputList.at(inputList.size()-1);
          for (int j = 0; j < inputList.size(); j++){
             Coordinate * e = inputList.at(j);
-            std::cout << "e: (" << e->x() << "," << e->y() << ")" << "\n";
+            //std::cout << "e: (" << e->x() << "," << e->y() << ")" << "\n";
              if(insideEdge(a,b,e)){
-                 std::cout << "e inside" << "\n";
                  if(!insideEdge(a,b,s)){
-                     std::cout << "s outside" << "\n";
                      outputList.push_back(intersection(a,b,s,e));
                  }
                  outputList.push_back(e);
              } else if(insideEdge(a,b,s)){
-                 std::cout << "s inside" << "\n";
                  outputList.push_back(intersection(a,b,s,e));
              }
              s = e;
+         }
+         if(outputList.empty()){
+             return;
          }
     }
     clipedObjects.push_back(new DisplayFileObject(new Polygon(outputList), displayfile.at(k)->getName()));
