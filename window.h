@@ -27,8 +27,12 @@ public:
     void clip();
     void clipLineCohenSutherland(std::vector<Coordinate*> coords, int i);
     void clipLineLiangBarsky(std::vector<Coordinate*> coords, int i);
+    void clipPolygonSutherlandHodgman(std::vector<Coordinate*> coords, int k);
+    bool insideEdge(Coordinate * a, Coordinate * b, Coordinate * x);
+    Coordinate * intersection(Coordinate * a, Coordinate * b, Coordinate * s, Coordinate * e);
 private:
     Polygon * mywindow;
+    Polygon * mynormalizewindow;
     std::vector<DisplayFileObject*> displayfile;
     //std::vector<DisplayFileObject*> normalizeddisplayfile;
     std::vector<DisplayFileObject*> clipedObjects;
