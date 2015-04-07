@@ -8,9 +8,9 @@ Window::Window(){
     mywindow->addPoint(new Coordinate(550, 550));
     mywindow->addPoint(new Coordinate(0, 550));
     mynormalizewindow->addPoint(new Coordinate(-0.95, -0.95));
-    mynormalizewindow->addPoint(new Coordinate(0.95, -0.95));
-    mynormalizewindow->addPoint(new Coordinate(0.95, 0.95));
     mynormalizewindow->addPoint(new Coordinate(-0.95, 0.95));
+    mynormalizewindow->addPoint(new Coordinate(0.95, 0.95));
+    mynormalizewindow->addPoint(new Coordinate(0.95, -0.95));
 }
 
 Window::~Window(){
@@ -138,17 +138,19 @@ void Window::clipLineLiangBarsky(std::vector<Coordinate*> coords, int i){
 }
 
 bool Window::insideEdge(Coordinate * a, Coordinate * b, Coordinate * x){
-    if(b->x() > a->x()){ //down side
-        if(x->y() > a->y()) return true;
+//    std::cout << "a: (" << a->x() << "," << a->y() << ")";
+//    std::cout << "b: (" << b->x() << "," << b->y() << ")\n";
+    if(b->x() > a->x()){ //up side
+        if(x->y() <= a->y()) return true;
     }
-    if(b->x() < a->x()){ //up side
-        if(x->y() < a->y()) return true;
+    if(b->x() < a->x()){ //down side
+        if(x->y() >= a->y()) return true;
     }
-    if(b->y() > a->y()){ //right side
-        if(x->x() > a->x()) return true;
+    if(b->y() > a->y()){ //left side
+        if(x->x() >= a->x()) return true;
     }
-    if(b->y() < a->y()){ //left side
-        if(x->x() < a->x()) return true;
+    if(b->y() < a->y()){ //right side
+        if(x->x() <= a->x()) return true;
     }
     return false;
 }
@@ -175,27 +177,27 @@ void Window::clipPolygonSutherlandHodgman(std::vector<Coordinate*> coords, int k
     Coordinate * b;
     for (int i = 0; i < clipPoly.size(); i++){
         a = clipPoly.at(i);
+        std::cout << " i:" << i << "\n";
         if(i == clipPoly.size()-1){
             b = clipPoly.at(0);
         } else {
             b = clipPoly.at(i+1);
         }
         inputList = outputList;
-//        while (!outputList.empty()){
-//            //std::cout << inputList.back()->y() << "\n";
-//            outputList.pop_back();
-//        }
         outputList.clear();
         Coordinate * s = inputList.at(inputList.size()-1);
          for (int j = 0; j < inputList.size(); j++){
             Coordinate * e = inputList.at(j);
-            std::cout << s->x() << " i:" << i << " j" << j <<"\n";
+            std::cout << "e: (" << e->x() << "," << e->y() << ")" << "\n";
              if(insideEdge(a,b,e)){
+                 std::cout << "e inside" << "\n";
                  if(!insideEdge(a,b,s)){
+                     std::cout << "s outside" << "\n";
                      outputList.push_back(intersection(a,b,s,e));
                  }
                  outputList.push_back(e);
              } else if(insideEdge(a,b,s)){
+                 std::cout << "s inside" << "\n";
                  outputList.push_back(intersection(a,b,s,e));
              }
              s = e;
