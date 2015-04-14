@@ -9,6 +9,8 @@ DisplayFileObject::~DisplayFileObject() {
 }
 
 std::vector<Coordinate *> DisplayFileObject::getCoordinates(){
+    if(object->getType() == "curve")
+        return dynamic_cast<Curve2D*>(object)->getCurveCoordinates();
     return object->getCoordinates();
 }
 
