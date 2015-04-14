@@ -32,6 +32,12 @@ void Qviewport::paintEvent(QPaintEvent *){
             std::vector<Coordinate*> c = obj->getCoordinates();
             painter.drawLine( c.at(0)->x(), c.at(0)->y(), c.at(1)->x(), c.at(1)->y());
         }
+        else if (type == "curve") {
+            std::vector<Coordinate*> c = ((Curve2D*)obj)->getCurveCoordinates();
+            for(int j = 0; j < c.size()-1; j++){
+                painter.drawLine( c.at(j)->x(), c.at(j)->y(), c.at(j+1)->x(), c.at(j+1)->y());
+            }
+        }
         else{
             std::vector<Coordinate*> c = obj->getCoordinates();
             for(int j = 0; j < c.size()-1; j++){

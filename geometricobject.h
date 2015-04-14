@@ -286,14 +286,14 @@ public:
         float mcx = -coorc->x();
         float mcy = -coorc->y();
         Coordinate * coormc = new Coordinate(mcx, mcy);
-
+        
         std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
         std::vector<std::vector<float> > movecM = coorc->generateMoveMatrix();
         std::vector<std::vector<float> > movemcM = coormc->generateMoveMatrix();
-
+        
         std::vector<std::vector<float> > moveScale1 = Matrix::mult(movemcM, scaleM);
         std::vector<std::vector<float> > finalM = Matrix::mult(moveScale1, movecM);
-
+        
         std::vector<std::vector<float> > baseM;
         std::vector<std::vector<float> > newPoint;
         for(int i =0; i < c.size(); i++){
@@ -308,14 +308,14 @@ public:
         float mcx = -coorc->x();
         float mcy = -coorc->y();
         Coordinate * coormc = new Coordinate(mcx, mcy);
-
+        
         std::vector<std::vector<float> > rotateM = GeometricObject::generateRotateMatrix(factor);
         std::vector<std::vector<float> > movecM = coorc->generateMoveMatrix();
         std::vector<std::vector<float> > movemcM = coormc->generateMoveMatrix();
-
+        
         std::vector<std::vector<float> > moveScale1 = Matrix::mult(movemcM, rotateM);
         std::vector<std::vector<float> > finalM = Matrix::mult(moveScale1, movecM);
-
+        
         std::vector<std::vector<float> > baseM;
         std::vector<std::vector<float> > newPoint;
         for(int i =0; i < c.size(); i++){
@@ -326,5 +326,119 @@ public:
         }
     };
 };
+
+class Curve2D: public GeometricObject {
+public:
+    Curve2D(){
+        type = "curve";
+    };
+    Curve2D(std::vector<Coordinate*> nc){
+        c = nc;
+        normc = nc;
+        type = "curve";
+    };
+    
+    float getMeanValue(float n1, float n2, float percent) {
+        return n1+((n2-n1)*percent);
+    }
+    
+    std::vector<Coordinate*> getCurveCoordinates() {
+        std::vector<Coordinate*> ret;
+        Coordinate* p0 = c.at(0);
+        Coordinate* p1 = c.at(1);
+        Coordinate* p2 = c.at(2);
+        Coordinate* p3 = c.at(3);
+        
+        
+        for( float i = 0 ; i < 1 ; i += 0.01 )
+        {
+            float xa = getMeanValue(p0->x(), p1->x(), i);
+            float ya = getMeanValue(p0->y(), p1->y(), i);
+            float xb = getMeanValue(p1->x(), p2->y(), i);
+            float yb = getMeanValue(p1->y(), p2->y(), i);
+            
+            float xc = getMeanValue(p2->x(), p3->y(), i);
+            float yc = getMeanValue(p2->y(), p3->y(), i);
+            
+            float xf1 = getMeanValue(xa, xb, i);
+            float yf1 = getMeanValue(ya, yb, i);
+            float xf2 = getMeanValue(xb, xc, i);
+            float yf2 = getMeanValue(yb, yc, i);
+            
+            float x = getMeanValue( xf1 , xf2 , i );
+            float y = getMeanValue( yf1 , yf2 , i );
+            
+            ret.push_back(new Coordinate(x,y));
+        }
+        return ret;
+    }
+    
+    void addPoint(Coordinate * coor){
+        c.push_back(coor);
+        normc.push_back(coor);
+    };
+    void addPoint(Coordinate& refcoor){
+        Coordinate* coor = new Coordinate(refcoor.x(), refcoor.y(), refcoor.z());
+        c.push_back(coor);
+        normc.push_back(coor);
+    };
+    void move(Coordinate *coor){
+        std::vector<std::vector<float> > baseM;
+        std::vector<std::vector<float> > newPoint;
+        std::vector<std::vector<float> > moveM = coor->generateMoveMatrix();
+        for(int i =0; i < c.size(); i++){
+            baseM = c.at(i)->generateBaseMatrix();
+            newPoint = Matrix::mult(baseM, moveM);
+            Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+            c.at(i) = newcoor;
+        }
+    };
+    void scale(Coordinate *coor){
+        Coordinate * coorc = getCenter();
+        float mcx = -coorc->x();
+        float mcy = -coorc->y();
+        Coordinate * coormc = new Coordinate(mcx, mcy);
+        
+        std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
+        std::vector<std::vector<float> > movecM = coorc->generateMoveMatrix();
+        std::vector<std::vector<float> > movemcM = coormc->generateMoveMatrix();
+        
+        std::vector<std::vector<float> > moveScale1 = Matrix::mult(movemcM, scaleM);
+        std::vector<std::vector<float> > finalM = Matrix::mult(moveScale1, movecM);
+        
+        std::vector<std::vector<float> > baseM;
+        std::vector<std::vector<float> > newPoint;
+        for(int i =0; i < c.size(); i++){
+            baseM = c.at(i)->generateBaseMatrix();
+            newPoint = Matrix::mult(baseM, finalM);
+            Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+            c.at(i) = newcoor;
+        }
+    };
+    void rotate(float factor){
+        Coordinate * coorc = getCenter();
+        float mcx = -coorc->x();
+        float mcy = -coorc->y();
+        Coordinate * coormc = new Coordinate(mcx, mcy);
+        
+        std::vector<std::vector<float> > rotateM = GeometricObject::generateRotateMatrix(factor);
+        std::vector<std::vector<float> > movecM = coorc->generateMoveMatrix();
+        std::vector<std::vector<float> > movemcM = coormc->generateMoveMatrix();
+        
+        std::vector<std::vector<float> > moveScale1 = Matrix::mult(movemcM, rotateM);
+        std::vector<std::vector<float> > finalM = Matrix::mult(moveScale1, movecM);
+        
+        std::vector<std::vector<float> > baseM;
+        std::vector<std::vector<float> > newPoint;
+        for(int i =0; i < c.size(); i++){
+            baseM = c.at(i)->generateBaseMatrix();
+            newPoint = Matrix::mult(baseM, finalM);
+            Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+            c.at(i) = newcoor;
+        }
+    };
+};
+
+
 
 #endif // GEOMETRICOBJECT
