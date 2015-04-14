@@ -20,6 +20,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->objslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     window = new Window();
+    
+    Curve2D* c = new Curve2D();
+    c->addPoint(new Coordinate(0,0));
+    c->addPoint(new Coordinate(0,100));
+    c->addPoint(new Coordinate(100,100));
+    c->addPoint(new Coordinate(100,0));
+    window->addObject(new DisplayFileObject(c, "LOLA"));
 
     window->normalize();
 
@@ -371,7 +378,17 @@ void MainWindow::viewPortTransformation()
             DisplayFileObject * dispobj = new DisplayFileObject(l, obj->getName());
             transformed.push_back(dispobj);
         }
-        else{
+        else if(type == "curve") {
+            std::vector<Coordinate*> curvec;
+            for(int j = 0; j < c.size(); j++){
+                Coordinate * coor = getViewPortCoordinates(c.at(j));
+                curvec.push_back(coor);
+            }
+            Curve2D * p = new Curve2D(curvec);
+            DisplayFileObject * dispobj = new DisplayFileObject(p, obj->getName());
+            transformed.push_back(dispobj);
+        }
+        else {
             Polygon * p = new Polygon();
             for(int j = 0; j < c.size(); j++){
                 Coordinate * coor = getViewPortCoordinates(c.at(j));
