@@ -289,8 +289,7 @@ void Window::clip(){
             clipLineCohenSutherland(coords, i);
         } else if(displayfile.at(i)->getType() == "polygon"){
             clipPolygonSutherlandHodgman(coords, i);
-        }
-        else {
+        } else {
             clipedObjects.push_back(displayfile.at(i));
         }
     }

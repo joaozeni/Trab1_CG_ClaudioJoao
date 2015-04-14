@@ -348,16 +348,15 @@ public:
         Coordinate* p1 = c.at(1);
         Coordinate* p2 = c.at(2);
         Coordinate* p3 = c.at(3);
-        
-        
+    
         for( float i = 0 ; i < 1 ; i += 0.01 )
         {
             float xa = getMeanValue(p0->x(), p1->x(), i);
             float ya = getMeanValue(p0->y(), p1->y(), i);
-            float xb = getMeanValue(p1->x(), p2->y(), i);
+            float xb = getMeanValue(p1->x(), p2->x(), i);
             float yb = getMeanValue(p1->y(), p2->y(), i);
             
-            float xc = getMeanValue(p2->x(), p3->y(), i);
+            float xc = getMeanValue(p2->x(), p3->x(), i);
             float yc = getMeanValue(p2->y(), p3->y(), i);
             
             float xf1 = getMeanValue(xa, xb, i);

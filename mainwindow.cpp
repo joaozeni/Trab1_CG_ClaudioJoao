@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     c->addPoint(new Coordinate(0,0));
     c->addPoint(new Coordinate(0,100));
     c->addPoint(new Coordinate(100,100));
-    c->addPoint(new Coordinate(0,0));
+    c->addPoint(new Coordinate(100,0));
     window->addObject(new DisplayFileObject(c, "LOLA"));
 
     window->normalize();
@@ -379,11 +379,12 @@ void MainWindow::viewPortTransformation()
             transformed.push_back(dispobj);
         }
         else if(type == "curve") {
-            Curve2D * p = new Curve2D();
+            std::vector<Coordinate*> curvec;
             for(int j = 0; j < c.size(); j++){
                 Coordinate * coor = getViewPortCoordinates(c.at(j));
-                p->addPoint(coor);
+                curvec.push_back(coor);
             }
+            Curve2D * p = new Curve2D(curvec);
             DisplayFileObject * dispobj = new DisplayFileObject(p, obj->getName());
             transformed.push_back(dispobj);
         }
