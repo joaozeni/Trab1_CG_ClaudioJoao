@@ -38,7 +38,9 @@ private:
 
     QStringListModel *objlist;
     QStringListModel *polypointslist;
+    QStringListModel *curvepointslist;
     QStringList polystring;
+    QStringList curvestring;
 
     void viewPortTransformation();
     Coordinate* getViewPortCoordinates(Coordinate* worldCoord);
@@ -48,6 +50,7 @@ private:
     Window * window;
 
     std::vector<Coordinate*> polyPoints;
+    std::vector<Coordinate*> curvePoints;
 
     //DisplayFileObject * obj = new DisplayFileObject();
 
@@ -62,7 +65,9 @@ private slots:
     void on_createpoint_clicked();
     void on_createline_clicked();
     void on_createpoly_clicked();
+    void on_createcurve_clicked();
     void on_addpolypoint_clicked();
+    void on_addcurvepoint_clicked();
     void on_buttonmove_clicked();
     void on_buttonscale_clicked();
     void on_buttonrotate_clicked();
