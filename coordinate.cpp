@@ -41,6 +41,7 @@ std::vector<std::vector<float> > Coordinate::generateBaseMatrix(){
     std::vector<float> l;
     l.push_back(coordinates[0]);
     l.push_back(coordinates[1]);
+    l.push_back(coordinates[2]);
     l.push_back(1.0);
     baseMatrix.push_back(l);
     return baseMatrix;
@@ -51,22 +52,32 @@ std::vector<std::vector<float> > Coordinate::generateMoveMatrix(){
     std::vector<float> l1;
     std::vector<float> l2;
     std::vector<float> l3;
+    std::vector<float> l4;
 
     l1.push_back(1.0);
+    l1.push_back(0.0);
     l1.push_back(0.0);
     l1.push_back(0.0);
 
     l2.push_back(0.0);
     l2.push_back(1.0);
     l2.push_back(0.0);
+    l2.push_back(0.0);
 
-    l3.push_back(coordinates[0]);
-    l3.push_back(coordinates[1]);
+    l3.push_back(0.0);
+    l3.push_back(0.0);
     l3.push_back(1.0);
+    l3.push_back(0.0);
+
+    l4.push_back(coordinates[0]);
+    l4.push_back(coordinates[1]);
+    l4.push_back(coordinates[2]);
+    l4.push_back(1.0);
 
     baseMatrix.push_back(l1);
     baseMatrix.push_back(l2);
     baseMatrix.push_back(l3);
+    baseMatrix.push_back(l4);
 
     return baseMatrix;
 }
@@ -76,22 +87,32 @@ std::vector<std::vector<float> > Coordinate::generateScaleMatrix(){
     std::vector<float> l1;
     std::vector<float> l2;
     std::vector<float> l3;
+    std::vector<float> l4;
 
     baseMatrix.push_back(l1);
     baseMatrix.push_back(l2);
     baseMatrix.push_back(l3);
+    baseMatrix.push_back(l4);
 
     baseMatrix.at(0).push_back(coordinates[0]);
+    baseMatrix.at(0).push_back(0.0);
     baseMatrix.at(0).push_back(0.0);
     baseMatrix.at(0).push_back(0.0);
 
     baseMatrix.at(1).push_back(0.0);
     baseMatrix.at(1).push_back(coordinates[1]);
     baseMatrix.at(1).push_back(0.0);
+    baseMatrix.at(1).push_back(0.0);
 
     baseMatrix.at(2).push_back(0.0);
     baseMatrix.at(2).push_back(0.0);
-    baseMatrix.at(2).push_back(1.0);
+    baseMatrix.at(2).push_back(coordinates[2]);
+    baseMatrix.at(2).push_back(0.0);
+
+    baseMatrix.at(3).push_back(0.0);
+    baseMatrix.at(3).push_back(0.0);
+    baseMatrix.at(3).push_back(0.0);
+    baseMatrix.at(3).push_back(1.0);
 
     return baseMatrix;
 }

@@ -81,16 +81,125 @@ public:
 
         return baseMatrix;
     }
+
+    static std::vector<std::vector<float> > generateRotateMatrixX(float factor){
+        std::vector<std::vector<float> > baseMatrix;
+        std::vector<float> l1;
+        std::vector<float> l2;
+        std::vector<float> l3;
+        std::vector<float> l4;
+
+        baseMatrix.push_back(l1);
+        baseMatrix.push_back(l2);
+        baseMatrix.push_back(l3);
+        baseMatrix.push_back(l4);
+
+        baseMatrix.at(0).push_back(1.0);
+        baseMatrix.at(0).push_back(0.0);
+        baseMatrix.at(0).push_back(0.0);
+        baseMatrix.at(0).push_back(0.0);
+
+        baseMatrix.at(1).push_back(0.0);
+        baseMatrix.at(1).push_back(cos(factor*M_PI/180));
+        baseMatrix.at(1).push_back(sin(factor*M_PI/180));
+        baseMatrix.at(1).push_back(0.0);
+
+        baseMatrix.at(2).push_back(0.0);
+        baseMatrix.at(2).push_back(-sin(factor*M_PI/180));
+        baseMatrix.at(2).push_back(cos(factor*M_PI/180));
+        baseMatrix.at(2).push_back(0.0);
+
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(1.0);
+
+        return baseMatrix;
+    }
+
+    static std::vector<std::vector<float> > generateRotateMatrixY(float factor){
+        std::vector<std::vector<float> > baseMatrix;
+        std::vector<float> l1;
+        std::vector<float> l2;
+        std::vector<float> l3;
+        std::vector<float> l4;
+
+        baseMatrix.push_back(l1);
+        baseMatrix.push_back(l2);
+        baseMatrix.push_back(l3);
+        baseMatrix.push_back(l4);
+
+        baseMatrix.at(0).push_back(cos(factor*M_PI/180));
+        baseMatrix.at(0).push_back(0.0);
+        baseMatrix.at(0).push_back(-sin(factor*M_PI/180));
+        baseMatrix.at(0).push_back(0.0);
+
+        baseMatrix.at(1).push_back(0.0);
+        baseMatrix.at(1).push_back(1.0);
+        baseMatrix.at(1).push_back(0.0);
+        baseMatrix.at(1).push_back(0.0);
+
+        baseMatrix.at(2).push_back(sin(factor*M_PI/180));
+        baseMatrix.at(2).push_back(0.0);
+        baseMatrix.at(2).push_back(cos(factor*M_PI/180));
+        baseMatrix.at(2).push_back(0.0);
+
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(1.0);
+
+        return baseMatrix;
+    }
+
+    static std::vector<std::vector<float> > generateRotateMatrixZ(float factor){
+        std::vector<std::vector<float> > baseMatrix;
+        std::vector<float> l1;
+        std::vector<float> l2;
+        std::vector<float> l3;
+        std::vector<float> l4;
+
+        baseMatrix.push_back(l1);
+        baseMatrix.push_back(l2);
+        baseMatrix.push_back(l3);
+        baseMatrix.push_back(l4);
+
+        baseMatrix.at(0).push_back(cos(factor*M_PI/180));
+        baseMatrix.at(0).push_back(sin(factor*M_PI/180));
+        baseMatrix.at(0).push_back(0.0);
+        baseMatrix.at(0).push_back(0.0);
+
+        baseMatrix.at(1).push_back(-sin(factor*M_PI/180));
+        baseMatrix.at(1).push_back(cos(factor*M_PI/180));
+        baseMatrix.at(1).push_back(0.0);
+        baseMatrix.at(1).push_back(0.0);
+
+        baseMatrix.at(2).push_back(0.0);
+        baseMatrix.at(2).push_back(0.0);
+        baseMatrix.at(2).push_back(1.0);
+        baseMatrix.at(2).push_back(0.0);
+
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(0.0);
+        baseMatrix.at(3).push_back(1.0);
+
+        return baseMatrix;
+    }
+
     Coordinate * getCenter() {
         float cx = 0.0;
         float cy = 0.0;
+        float cz = 0.0;
         for(int i =0; i < c.size(); i++){
             cx = cx + c.at(i)->x();
             cy = cy + c.at(i)->y();
+            cz = cz + c.at(i)->z();
         }
         cx = cx/c.size();
         cy = cy/c.size();
-        Coordinate * coorc = new Coordinate(cx, cy);
+        cz = cz/c.size();
+        Coordinate * coorc = new Coordinate(cx, cy, cz);
         return coorc;
     }
 
@@ -164,6 +273,34 @@ public:
         c.at(0) = newcoor;
     };
     void rotate(float factor){
+        // float vec[2] = {0.0, 550.0};
+        // float dot = (vup->x()*yvec[0]) + (vup->y()*yvec[1]);
+        // float det = (vup->x()*yvec[1]) - (vup->y()*yvec[0]);
+        // float factorx = (atan2(det, dot)*180)/ M_PI;
+
+        // float dot = (vup->x()*yvec[0]) + (vup->y()*yvec[1]);
+        // float det = (vup->x()*yvec[1]) - (vup->y()*yvec[0]);
+        // float factorz = (atan2(det, dot)*180)/ M_PI;
+
+        // Coordinate * coorc = getCenter();
+        // float mcx = -coorc->x();
+        // float mcy = -coorc->y();
+        // float mcz = -coorc->z();
+        // Coordinate * coormc = new Coordinate(mcx, mcy, mcz);
+
+        // std::vector<std::vector<float> > movec = coorc->generateMoveMatrix();
+        // std::vector<std::vector<float> > movemc = coormc->generateMoveMatrix();
+        // std::vector<std::vector<float> > rotateMx = GeometricObject::generateRotateMatrix(factorx);
+        // std::vector<std::vector<float> > rotateMz = GeometricObject::generateRotateMatrix(factorz);
+        // std::vector<std::vector<float> > rotateMMx = GeometricObject::generateRotateMatrix(-factorx);
+        // std::vector<std::vector<float> > rotateMMz = GeometricObject::generateRotateMatrix(-factorz);
+        // std::vector<std::vector<float> > rotateM = GeometricObject::generateRotateMatrix(factor);
+        // std::vector<std::vector<float> > baseM = c.at(0)->generateBaseMatrix();
+
+        // std::vector<std::vector<float> > newPoint = Matrix::mult(baseM, rotateM);
+        // Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+        // c.at(0) = newcoor;
+
         std::vector<std::vector<float> > rotateM = GeometricObject::generateRotateMatrix(factor);
         std::vector<std::vector<float> > baseM = c.at(0)->generateBaseMatrix();
         std::vector<std::vector<float> > newPoint = Matrix::mult(baseM, rotateM);
@@ -260,6 +397,82 @@ public:
         c = nc;
         normc = nc;
         type = "polygon";
+    };
+    void addPoint(Coordinate * coor){
+        c.push_back(coor);
+        normc.push_back(coor);
+    };
+    void addPoint(Coordinate& refcoor){
+        Coordinate* coor = new Coordinate(refcoor.x(), refcoor.y(), refcoor.z());
+        c.push_back(coor);
+        normc.push_back(coor);
+    };
+    void move(Coordinate *coor){
+        std::vector<std::vector<float> > baseM;
+        std::vector<std::vector<float> > newPoint;
+        std::vector<std::vector<float> > moveM = coor->generateMoveMatrix();
+        for(int i =0; i < c.size(); i++){
+            baseM = c.at(i)->generateBaseMatrix();
+            newPoint = Matrix::mult(baseM, moveM);
+            Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+            c.at(i) = newcoor;
+        }
+    };
+    void scale(Coordinate *coor){
+        Coordinate * coorc = getCenter();
+        float mcx = -coorc->x();
+        float mcy = -coorc->y();
+        Coordinate * coormc = new Coordinate(mcx, mcy);
+        
+        std::vector<std::vector<float> > scaleM = coor->generateScaleMatrix();
+        std::vector<std::vector<float> > movecM = coorc->generateMoveMatrix();
+        std::vector<std::vector<float> > movemcM = coormc->generateMoveMatrix();
+        
+        std::vector<std::vector<float> > moveScale1 = Matrix::mult(movemcM, scaleM);
+        std::vector<std::vector<float> > finalM = Matrix::mult(moveScale1, movecM);
+        
+        std::vector<std::vector<float> > baseM;
+        std::vector<std::vector<float> > newPoint;
+        for(int i =0; i < c.size(); i++){
+            baseM = c.at(i)->generateBaseMatrix();
+            newPoint = Matrix::mult(baseM, finalM);
+            Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+            c.at(i) = newcoor;
+        }
+    };
+    void rotate(float factor){
+        Coordinate * coorc = getCenter();
+        float mcx = -coorc->x();
+        float mcy = -coorc->y();
+        Coordinate * coormc = new Coordinate(mcx, mcy);
+        
+        std::vector<std::vector<float> > rotateM = GeometricObject::generateRotateMatrix(factor);
+        std::vector<std::vector<float> > movecM = coorc->generateMoveMatrix();
+        std::vector<std::vector<float> > movemcM = coormc->generateMoveMatrix();
+        
+        std::vector<std::vector<float> > moveScale1 = Matrix::mult(movemcM, rotateM);
+        std::vector<std::vector<float> > finalM = Matrix::mult(moveScale1, movecM);
+        
+        std::vector<std::vector<float> > baseM;
+        std::vector<std::vector<float> > newPoint;
+        for(int i =0; i < c.size(); i++){
+            baseM = c.at(i)->generateBaseMatrix();
+            newPoint = Matrix::mult(baseM, finalM);
+            Coordinate * newcoor = new Coordinate(newPoint.at(0).at(0), newPoint.at(0).at(1));
+            c.at(i) = newcoor;
+        }
+    };
+};
+
+class object3D: public GeometricObject {
+public:
+    object3D(){
+        type = "object3D";
+    };
+    object3D(std::vector<Coordinate*> nc){
+        c = nc;
+        normc = nc;
+        type = "object3D";
     };
     void addPoint(Coordinate * coor){
         c.push_back(coor);
