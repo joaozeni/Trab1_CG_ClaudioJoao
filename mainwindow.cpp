@@ -16,6 +16,10 @@ MainWindow::MainWindow(QWidget *parent) :
     polypointslist = new QStringListModel(this);
     ui->polypointlist->setModel(polypointslist);
     polypointslist->setStringList(polystring);
+    
+    curvepointslist = new QStringListModel(this);
+    ui->curvepointlist->setModel(curvepointslist);
+    curvepointslist->setStringList(curvestring);
 
     ui->objslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
@@ -23,9 +27,9 @@ MainWindow::MainWindow(QWidget *parent) :
     
     Curve2D* c = new Curve2D();
     c->addPoint(new Coordinate(0,0));
-    c->addPoint(new Coordinate(0,100));
     c->addPoint(new Coordinate(100,100));
-    c->addPoint(new Coordinate(100,0));
+    c->addPoint(new Coordinate(100,200));
+    c->addPoint(new Coordinate(200,200));
     window->addObject(new DisplayFileObject(c, "LOLA"));
 
     window->normalize();
@@ -266,6 +270,19 @@ void MainWindow::on_createline_clicked()
     //redraw();
 }
 
+void MainWindow::on_addcurvepoint_clicked()
+{
+    float x = ui->curvexpoint->toPlainText().toFloat();
+    float y = ui->curveypoint->toPlainText().toFloat();
+    Coordinate * coor = new Coordinate(x, y);
+    curvePoints.push_back(coor);
+    curvestring << ui->curvexpoint->toPlainText() + "," + ui->curveypoint->toPlainText();
+    curvepointslist->setStringList(curvestring);
+    ui->curvexpoint->clear();
+    ui->curveypoint->clear();
+    //redraw();
+}
+
 void MainWindow::on_addpolypoint_clicked()
 {
     float x = ui->polyxpoint->toPlainText().toFloat();
@@ -322,6 +339,28 @@ void MainWindow::on_buttonrotate_clicked(){
     updateScreen();
     //viewPortTransformation();
     //ui->canvas->update();
+}
+
+void MainWindow::on_createcurve_clicked()
+{
+    std::string name = ui->namecurve->toPlainText().toStdString();
+    Curve2D* c = new Curve2D();
+    for(unsigned int i =0; i < curvePoints.size(); i++){
+        c->addPoint(curvePoints.at(i));
+    }
+    DisplayFileObject * d = new DisplayFileObject(c, name);
+    //displayFile.push_back(d);
+    window->addObject(d);
+    updateScreen();
+    //window->normalize();
+    //viewPortTransformation();
+    ui->canvas->update();
+    ui->namepolygon->clear();
+    ui->curvexpoint->clear();
+    ui->curveypoint->clear();
+    curvestring.clear();
+    curvepointslist->setStringList(curvestring);
+    //redraw();
 }
 
 void MainWindow::on_createpoly_clicked()
